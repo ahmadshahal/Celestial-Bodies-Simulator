@@ -1,17 +1,14 @@
-*
-{
+*{
     margin: 0;
     padding: 0;
 }
 
 html,
-body
-{
+body{
     overflow: hidden;
 }
 
-.webgl
-{
+.webgl{
     position: fixed;
     top: 0;
     left: 0;
@@ -32,19 +29,19 @@ body
 }
 
 .start-page p{
-    margin-top: 200px;
-    margin-bottom: 250px;
+    margin-top: 120px;
+    margin-bottom: 150px;
     font-family: cursive;
     /* -webkit-text-stroke: 6px #F8A53A; */
-    font-size: 200px;
+    font-size: 110px;
     color: white;
 }
 
 .start-page .start-button{
     font-family: cursive;
-    width: 350px;
-    height: 80px;
-    font-size: 30px;
+    width: 270px;
+    height: 60px;
+    font-size: 20px;
     font-weight: bold;
     background: white;
     border-radius: 7px;
