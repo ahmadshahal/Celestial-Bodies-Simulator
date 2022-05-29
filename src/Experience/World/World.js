@@ -9,15 +9,15 @@ export default class World {
         this.scene = this.experience.scene
         this.scene.background = new THREE.Color(0xB4B4B4)
 
-        this.sun = new Planet(0, 0, 0, 0.5, 0xFFFFFF, 100000, 0, 0, 0)
+        this.sun = new Planet('Sun' , 0, 0, 0, 0.5, 0xFFFFFF, 100000, 0, 0, 0)
 
-        this.mars = new Planet(2, 0, 0, 0.1, 0xFFFFFF, 1, 0, 0, 50)
-        this.venus = new Planet(0, 2, 0, 0.1, 0xFFFFFF, 1, 50, 0, 0)
-        this.earth = new Planet(0, 0, 2, 0.1, 0xFFFFFF, 1, 0, 50, 0)
+        this.mars = new Planet('Mars', 2, 0, 0, 0.1, 0xFFFFFF, 1, 0, 0, 50)
+        this.venus = new Planet('Venus',0, 2, 0, 0.1, 0xFFFFFF, 1, 50, 0, 0)
+        this.earth = new Planet('Earth' ,0, 0, 2, 0.1, 0xFFFFFF, 1, 0, 50, 0)
 
-        this.jupiter = new Planet(3, 0, 0, 0.1, 0xFFFFFF, 1, 0, 0, 50)
-        this.uranus = new Planet(0, 3, 0, 0.1, 0xFFFFFF, 1, 50, 0, 0)
-        this.neptune = new Planet(0, 0, 3, 0.1, 0xFFFFFF, 1, 0, 50, 0)
+        this.jupiter = new Planet('Jupiter' ,3, 0, 0, 0.1, 0xFFFFFF, 1, 0, 0, 50)
+        this.uranus = new Planet('Uranus' ,0, 3, 0, 0.1, 0xFFFFFF, 1, 50, 0, 0)
+        this.neptune = new Planet('Neptune', 0, 0, 3, 0.1, 0xFFFFFF, 1, 0, 50, 0)
 
 
         this.planets = [
@@ -49,6 +49,11 @@ export default class World {
             this.uranus.orbit.line,
             this.neptune.orbit.line
         )
+
+        this.planets.forEach(planet => {
+            this.experience.controlPanel.editPlanet(planet);
+            this.experience.controlPanel.deletePlanet(planet);
+        });
 
         this.TIME_STEP = 0.0001
     }

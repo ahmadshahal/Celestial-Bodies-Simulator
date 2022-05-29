@@ -2,7 +2,8 @@ import * as THREE from 'three'
 import PathPoint from './PathPoint'
 
 export default class Planet {
-    constructor(x, y, z, radius, color, mass, xM, yM, zM) {
+    constructor(name , x, y, z, radius, color, mass, xM, yM, zM) {
+        this.name = name;
         this.position = new THREE.Vector3(x, y, z)
         this.radius = radius
         this.mass = mass
