@@ -18,8 +18,7 @@ export default class World {
         this.jupiter = new Planet('Jupiter' ,3, 0, 0, 0.1, 0xFFFFFF, 1, 0, 0, 50)
         this.uranus = new Planet('Uranus' ,0, 3, 0, 0.1, 0xFFFFFF, 1, 50, 0, 0)
         this.neptune = new Planet('Neptune', 0, 0, 3, 0.1, 0xFFFFFF, 1, 0, 50, 0)
-
-
+        
         this.planets = [
             this.sun,
             this.earth,
@@ -50,6 +49,7 @@ export default class World {
             this.neptune.orbit.line
         )
 
+        // add planets to control panel
         this.planets.forEach(planet => {
             this.experience.controlPanel.editPlanet(planet);
             this.experience.controlPanel.deletePlanet(planet);

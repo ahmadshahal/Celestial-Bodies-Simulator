@@ -6,13 +6,8 @@ class ControlPanel{
     constructor(){
         this.experience = new Experience();
         this.scene = this.experience.scene;
-        this.gui = new guify({
-            title: "Control Panel",
-            theme: 'light',
-            width: '350px',
-            align: 'right',
-            panelOverflowBehavior: 'scroll'
-        });
+        
+        // create template to the added planet
         this.tempPlanet = {
             name: '',
             x : 0, y : 0, z : 0,
@@ -21,10 +16,43 @@ class ControlPanel{
             mass: 1, 
             xM: 0, yM: 0, zM: 0,
         };
+
+        // initial the panel
+        this.initialization();
+
+        // fill the add folder
+        this.addPlanet();
+
+        // fill the time step folder
+        setTimeout(() => this.editTimeStep() , 500);
+
+        // fill axes folder
+        this.editAxes();
+    }
+
+    initialization(){
+        // create the main control panel
+        this.gui = new guify({
+            title: "Control Panel",
+            theme: 'light',
+            width: '350px',
+            align: 'right',
+            panelOverflowBehavior: 'scroll'
+        });
+
+        // create the main folders
         this.gui.Register([
             {type: 'folder' , label: 'Planets'},
             {type: 'folder' , label: 'Add Planet'},
             {type: 'folder' , label: 'Delete Planet'},
+            {type: 'folder' , label: 'Time Step'},
+            {type: 'folder' , label: 'Axes'}
+        ]);
+    }
+
+
+    addPlanet(){
+        this.gui.Register([
             {
                 type: 'text' , label: 'Planet name:' , folder: 'Add Planet',
                 object: this.tempPlanet , property: 'name',
@@ -85,7 +113,7 @@ class ControlPanel{
                     planets.forEach(e => {
                         if(e.name.toLowerCase() === this.tempPlanet.name.toLowerCase()){
                             this.gui.Toast('Planet name is already exist');
-                            f = false;
+                            return;
                         }
                     });
                     if(f === false) return;
@@ -109,7 +137,6 @@ class ControlPanel{
     }
 
     editPlanet(planet) {
-        console.log(planet.mesh);
         this.gui.Register([
             {type: 'folder' , label: planet.name , folder: 'Planets'},
             {
@@ -149,6 +176,32 @@ class ControlPanel{
                         }
                     });
                 } 
+            }
+        ]);
+    }
+
+    editTimeStep(){
+        const world = this.experience.world;
+        this.gui.Register([
+            {
+                type: 'range' , label: 'Time step' , folder: 'Time Step',
+                min: 0 , max: 10 , step: 0.0001 , scale: 'linear' , precision: 4,
+                object: world , property: 'TIME_STEP',
+            },
+            {
+                type: 'button' , label: 'Reset time step' , folder: 'Time Step',
+                action: () => world.TIME_STEP = 0.0001,
+            }
+        ]);
+    }
+
+    editAxes(){
+        const mainAxes = this.experience.axes.mainAxes;
+        console.log(mainAxes);
+        this.gui.Register([
+            {
+                type: 'checkbox' , label: 'visible' , folder: 'Axes',
+                object: mainAxes , property: 'visible',
             }
         ]);
     }
