@@ -14,7 +14,8 @@ class ControlPanel{
             radius: 1,
             color: '#FFFFFF',
             mass: 1, 
-            xM: 0, yM: 0, zM: 0,
+            xV: 0, yV: 0, zV: 0,
+            rotationSpeed : 0
         };
 
         // initial the panel
@@ -34,7 +35,7 @@ class ControlPanel{
         // create the main control panel
         this.gui = new guify({
             title: "Control Panel",
-            theme: 'light',
+            theme: 'dark',
             width: '350px',
             align: 'right',
             panelOverflowBehavior: 'scroll'
@@ -49,7 +50,6 @@ class ControlPanel{
             {type: 'folder' , label: 'Axes'}
         ]);
     }
-
 
     addPlanet(){
         this.gui.Register([
@@ -87,24 +87,30 @@ class ControlPanel{
                 min: 1 , max: 1e30 , step: 1000 , scale: 'linear',
             },
             {
-                type: 'range' , label: 'X momentum' , folder: 'Add Planet',
+                type: 'range' , label: 'X velocity' , folder: 'Add Planet',
                 min: 1 , max: 1000 , step: 1, scale: 'linear',
-                object: this.tempPlanet , property : 'xM',
+                object: this.tempPlanet , property : 'xV',
             },
             {
-                type: 'range' , label: 'Y momentum' , folder: 'Add Planet',
+                type: 'range' , label: 'Y velocity' , folder: 'Add Planet',
                 min: 1 , max: 1000 , step: 1, scale: 'linear',
-                object: this.tempPlanet , property : 'yM',
+                object: this.tempPlanet , property : 'yV',
             },
             {
-                type: 'range' , label: 'Z momentum' , folder: 'Add Planet',
+                type: 'range' , label: 'Z velocity' , folder: 'Add Planet',
                 min: 1 , max: 1000 , step: 1, scale: 'linear',
-                object: this.tempPlanet , property : 'zM',
+                object: this.tempPlanet , property : 'zV',
             },
+            {
+                type: 'range' , label: 'Rotation speed' , folder: 'Add Planet',
+                min: 0 , max: 1 , step: 0.001 , scale: 'linear',
+                object: this.tempPlanet , property: 'rotationSpeed'
+            },  
             {
                 type: 'button' , label: 'Add Planet' , folder: 'Add Planet',
                 action: (value) => {
                     const planets = this.experience.world.planets;
+                    console.log(planets);
                     let f = true;
                     if(this.tempPlanet.name === ''){
                         this.gui.Toast('Please insert name for the planet');
@@ -113,13 +119,14 @@ class ControlPanel{
                     planets.forEach(e => {
                         if(e.name.toLowerCase() === this.tempPlanet.name.toLowerCase()){
                             this.gui.Toast('Planet name is already exist');
-                            return;
+                            f = false;
                         }
                     });
                     if(f === false) return;
                     const newPlanet = new Planet(this.tempPlanet.name , this.tempPlanet.x , this.tempPlanet.y, this.tempPlanet.z,
-                                                this.tempPlanet.radius , this.tempPlanet.color , this.tempPlanet.mass, 
-                                                this.tempPlanet.xM, this.tempPlanet.yM , this.tempPlanet.zM);
+                                                this.tempPlanet.radius , this.tempPlanet.mass , this.tempPlanet.xV ,
+                                                this.tempPlanet.yV , this.tempPlanet.zV , this.tempPlanet.rotationSpeed,
+                                                this.tempPlanet.color , null);
                     planets.forEach(e => {
                         if(newPlanet.areCollided(e)){
                             this.gui.Toast('Planet can not be added in this coordinates');
@@ -197,7 +204,6 @@ class ControlPanel{
 
     editAxes(){
         const mainAxes = this.experience.axes.mainAxes;
-        console.log(mainAxes);
         this.gui.Register([
             {
                 type: 'checkbox' , label: 'visible' , folder: 'Axes',

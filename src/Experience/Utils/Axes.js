@@ -6,6 +6,7 @@ class Axes{
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.mainAxes = new THREE.AxesHelper(10);
+        this.mainAxes.visible = false;
         this.scene.add(this.mainAxes);
     }
 }

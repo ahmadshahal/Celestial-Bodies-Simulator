@@ -102,6 +102,6 @@ body{
 }
 
 .guify-panel-container-scrollable{
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
     overflow-x: hidden !important;
 }

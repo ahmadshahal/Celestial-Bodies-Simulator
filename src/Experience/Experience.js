@@ -4,8 +4,8 @@ import Time from './Utils/Time.js'
 import Camera from './Camera.js'
 import Renderer from './Renderer.js'
 import World from './World/World.js'
+import Axes from './Utils/Axes';
 import ControlPanel from './Utils/ControlPanel';
-import Axes from './Utils/Axes.js'
 
 let instance = null
 
@@ -37,6 +37,7 @@ export default class Experience
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()
+
 
         // Resize event
         this.sizes.on('resize', () =>
