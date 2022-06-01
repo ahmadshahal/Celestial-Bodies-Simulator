@@ -3,21 +3,24 @@ import PathPoint from './PathPoint'
 import Experience from "../Experience";
 import World from './World'
 
+const earthMass = 5.97 * 10 ** 24
+
 export default class Planet {
     constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star) {
         this.name = name;
         this.world = new World()
+        x *= this.world.AU; y *= this.world.AU; z *= this.world.AU
         this.position = new THREE.Vector3(x, y, z)
         this.radius = radius
-        this.mass = mass
+        this.mass = mass * earthMass
         this.color = color
-        this.momentum = new THREE.Vector3(xV * mass, yV * mass, zV *mass)
+        this.momentum = new THREE.Vector3(xV * this.mass, yV * this.mass, zV * this.mass)
         this.rotationalSpeed = rotationalSpeed
         this.orbit = new PathPoint(x * this.world.SCALE, y * this.world.SCALE, z * this.world.SCALE);
         if(star) {
             this.material = new THREE.MeshBasicMaterial();
             this.starLight = new THREE.PointLight(0xffffff , 1 , 0);
-            this.starLight.position.set(x,y,z);
+            this.starLight.position.set(x * this.world.SCALE, y * this.world.SCALE, z * this.world.SCALE);
 
             // Shadow of the light
             this.starLight.castShadow = true;

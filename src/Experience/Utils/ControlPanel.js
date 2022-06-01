@@ -2,19 +2,24 @@ import { guify } from 'guify';
 import Experience from "../Experience";
 import Planet from '../World/Planet';
 
+const earthMass = 5.97 * 10 ** 24
+const AU =  149.6e6 * 1000
+const SCALE = 5 / AU
+const earthVelocity = -1 * 29.8 * 1000
+
 class ControlPanel{
     constructor(){
         this.experience = new Experience();
         this.scene = this.experience.scene;
-        // this.world = this.experience.world;
+
         // create template to the added planet
         this.tempPlanet = {
             name: '',
             x : 0, y : 0, z : 0,
-            radius: 1,
+            radius: 0.5,
             color: '#FFFFFF',
             mass: 1, 
-            xV: 0, yV: 0, zV: 0,
+            xV: 0, yV: 0, zV: earthVelocity,
             rotationSpeed : 0
         };
 
@@ -74,7 +79,7 @@ class ControlPanel{
             },
             {
                 type: 'range' , label: 'Radius' , folder: 'Add Planet',
-                min: 1 , max: 100 , step: 1, scale: 'linear',
+                min: 0.001 , max: 2 , step: 0.01, scale: 'linear',
                 object: this.tempPlanet , property : 'radius',
             },
             {
@@ -84,21 +89,21 @@ class ControlPanel{
             {
                 type: 'range' , label: 'Mass(kg)' , folder: 'Add Planet',
                 object: this.tempPlanet , property: 'mass',
-                min: 1 , max: 1e30 , step: 1000 , scale: 'linear',
+                min: 0.1 , max: 1e7 , step: 1 , scale: 'linear',
             },
             {
                 type: 'range' , label: 'X velocity' , folder: 'Add Planet',
-                min: 1 , max: 1000 , step: 1, scale: 'linear',
+                min: 0 , max: 1e7 , step: 1, scale: 'linear',
                 object: this.tempPlanet , property : 'xV',
             },
             {
                 type: 'range' , label: 'Y velocity' , folder: 'Add Planet',
-                min: 1 , max: 1000 , step: 1, scale: 'linear',
+                min: 0 , max: 1e7 , step: 1, scale: 'linear',
                 object: this.tempPlanet , property : 'yV',
             },
             {
                 type: 'range' , label: 'Z velocity' , folder: 'Add Planet',
-                min: 1 , max: 1000 , step: 1, scale: 'linear',
+                min: 0 , max: 1e7 , step: 1, scale: 'linear',
                 object: this.tempPlanet , property : 'zV',
             },
             {
