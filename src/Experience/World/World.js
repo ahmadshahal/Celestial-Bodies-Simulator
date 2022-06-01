@@ -26,17 +26,20 @@ export default class World {
         this.scene = this.experience.scene
         this.scene.background = new THREE.Color(0x1c253c)
 
-        this.sun = new Planet('sun' , 0, 0, 0,/* (109 * earthRadius)*/ 0.2, 1.98892 * 10 ** 30 , 0, 0, 0, 0.1, null ,textures.sun)
+        // Scene Light
+        this.sceneLight = new THREE.AmbientLight(0xb9b5ff, 0.12)
+
+        this.sun = new Planet('sun' , 0, 0, 0,/* (109 * earthRadius)*/ 0.2, 1.98892 * 10 ** 30 , 0, 0, 0, 0.1, null ,textures.sun,1)
 
 
-        this.mercury = new Planet('mercury' , 0.387 * this.AU, 0, 0, 0.383 * this.earthRadius, 0.0553 * this.earthMass, 0, 0, 1.59 * this.earthVelocity, 0.01, null, textures.mercury)
-        this.venus = new Planet('venus' , 0.723* this.AU , 0, 0, 0.949 * this.earthRadius, 0.815 * this.earthMass, 0, 0, 1.18 * this.earthVelocity, 0.01,null, textures.venus)
-        this.earth = new Planet('earth' , -1 * this.AU, 0, 0, this.earthRadius, this.earthMass , 0,  0, -1 * this.earthVelocity, 0.01, null, textures.earth)
-        this.mars = new Planet('mars' ,1.52 * this.AU, 0, 0, 0.532 * this.earthRadius, 0.107 * this.earthMass, 0, 0, 0.808 * this.earthVelocity, 0.01, null, textures.mars)
-        this.jupiter = new Planet('jupiter' , 5.2 * this.AU, 0, 0, 11.21 * this.earthRadius, 317.8 * this.earthMass, 0, 0, 0.439 * this.earthVelocity, 0.01 ,null, textures.jupiter)
-        this.saturn = new Planet('saturn' , 9.57 * this.AU, 0, 0, 9.45 * this.earthRadius, 95.2 * this.earthMass, 0, 0, 0.325 * this.earthVelocity, 0.01, null, textures.saturn)
-        this.uranus = new Planet('uranus' , 19.17 * this.AU, 0, 0, 4.01 * this.earthRadius, 14.5 * this.earthMass, 0, 0, 0.228 * this.earthVelocity, 0.01, null, textures.uranus)
-        this.neptune = new Planet('neptune' , 30.18 * this.AU, 0, 0, 3.88 * this.earthRadius, 17.1 * this.earthMass, 0, 0 , 0.182 * this.earthVelocity, 0.01, null, textures.neptune)
+        this.mercury = new Planet('mercury' , 0.387 * this.AU, 0, 0, 0.383 * this.earthRadius, 0.0553 * this.earthMass, 0, 0, 1.59 * this.earthVelocity, 0.01, null, textures.mercury,0)
+        this.venus = new Planet('venus' , 0.723* this.AU , 0, 0, 0.949 * this.earthRadius, 0.815 * this.earthMass, 0, 0, 1.18 * this.earthVelocity, 0.01,null, textures.venus,0)
+        this.earth = new Planet('earth' , -1 * this.AU, 0, 0, this.earthRadius, this.earthMass , 0,  0, -1 * this.earthVelocity, 0.01, null, textures.earth,0)
+        this.mars = new Planet('mars' ,1.52 * this.AU, 0, 0, 0.532 * this.earthRadius, 0.107 * this.earthMass, 0, 0, 0.808 * this.earthVelocity, 0.01, null, textures.mars,0)
+        this.jupiter = new Planet('jupiter' , 5.2 * this.AU, 0, 0, 11.21 * this.earthRadius, 317.8 * this.earthMass, 0, 0, 0.439 * this.earthVelocity, 0.01 ,null, textures.jupiter,0)
+        this.saturn = new Planet('saturn' , 9.57 * this.AU, 0, 0, 9.45 * this.earthRadius, 95.2 * this.earthMass, 0, 0, 0.325 * this.earthVelocity, 0.01, null, textures.saturn,0)
+        this.uranus = new Planet('uranus' , 19.17 * this.AU, 0, 0, 4.01 * this.earthRadius, 14.5 * this.earthMass, 0, 0, 0.228 * this.earthVelocity, 0.01, null, textures.uranus,0)
+        this.neptune = new Planet('neptune' , 30.18 * this.AU, 0, 0, 3.88 * this.earthRadius, 17.1 * this.earthMass, 0, 0 , 0.182 * this.earthVelocity, 0.01, null, textures.neptune,0)
 
         this.planets = [
             this.sun,
@@ -51,6 +54,7 @@ export default class World {
         ]
 
         this.scene.add(
+            this.sceneLight,
             this.sun.mesh,
             this.earth.mesh,
             this.mars.mesh,
@@ -78,7 +82,9 @@ export default class World {
             this.experience.controlPanel.editPlanet(planet);
             this.experience.controlPanel.deletePlanet(planet);
         });
+
     }
+    
     update() {
         this.planets.forEach((planet) => {
             this.gravitationalForceUpdate(planet)
@@ -87,6 +93,7 @@ export default class World {
             planet.rotate()
         })
     }
+
     gravitationalForceUpdate(planet) {
         const force = new THREE.Vector3(0, 0, 0)
         this.planets.forEach((tempPlanet) => {
