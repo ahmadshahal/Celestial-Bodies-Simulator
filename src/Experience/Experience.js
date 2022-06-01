@@ -34,9 +34,9 @@ export default class Experience
         this.axes = new Axes();
         this.controlPanel = new ControlPanel();
         //this.resources = new Resources(sources)
-        this.camera = new Camera()
-        this.renderer = new Renderer()
-        this.world = new World()
+        this.camera = new Camera();
+        this.renderer = new Renderer();
+        this.world = new World();
 
 
         // Resize event

@@ -6,7 +6,7 @@ class ControlPanel{
     constructor(){
         this.experience = new Experience();
         this.scene = this.experience.scene;
-        
+        // this.world = this.experience.world;
         // create template to the added planet
         this.tempPlanet = {
             name: '',
@@ -161,7 +161,7 @@ class ControlPanel{
             },
             {
                 type: 'range' , label: 'Mass(kg)' , folder: planet.name,
-                min: 1, max: 1e30, step: 1000 , scale: 'linear',    
+                min: 1e15, max: 3e30, step: 1000 , scale: 'linear',    
                 object: planet , property: 'mass'
             },
         ]);
@@ -189,15 +189,16 @@ class ControlPanel{
 
     editTimeStep(){
         const world = this.experience.world;
+        const TIME_STEP = world.TIME_STEP
         this.gui.Register([
             {
                 type: 'range' , label: 'Time step' , folder: 'Time Step',
-                min: 0 , max: 10 , step: 0.0001 , scale: 'linear' , precision: 4,
+                min: 0 , max: TIME_STEP * 3 , step: 60 , scale: 'linear' , precision: 4,
                 object: world , property: 'TIME_STEP',
             },
             {
                 type: 'button' , label: 'Reset time step' , folder: 'Time Step',
-                action: () => world.TIME_STEP = 0.0001,
+                action: () => world.TIME_STEP = TIME_STEP,
             }
         ]);
     }
