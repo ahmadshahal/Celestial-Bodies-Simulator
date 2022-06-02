@@ -32,7 +32,7 @@ export default class Planet {
             this.starLight.shadow.camera.bottom = -10
             this.starLight.shadow.camera.left = -10
             // this.starLight.shadow.radius = 20
-            this.starLight.shadow.blurSamples = 0;
+            // this.starLight.shadow.blurSamples = 0;
 
             this.experience = new Experience();
             this.scene = this.experience.scene;

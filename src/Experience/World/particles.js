@@ -12,14 +12,14 @@ class Particle {
         this.particlesGeometry = new THREE.BufferGeometry()
         this.positions = new Float32Array(this.count * 3)
         for (let i = 0; i < (this.count * 3); i++) {
-            this.positions[i] = ((Math.random() - 0.5) *100);
-            this.positions[i] <=0 ? this.positions[i]-=5 : this.positions[i]+=5;
+            this.positions[i] = ((Math.random() - 0.5) *2000);
+            this.positions[i] <=0 ? this.positions[i]-=80 : this.positions[i]+=80;
         }
         this.particlesGeometry.setAttribute('position', new THREE.BufferAttribute(this.positions, 3))
         this.particlesMaterial = new THREE.PointsMaterial()
 
         // size & properties
-        this.particlesMaterial.size = 1
+        this.particlesMaterial.size = 12
         this.particlesMaterial.sizeAttenuation = true
         this.particlesMaterial.transparent = true
         this.particlesMaterial.alphaMap = textures.particle;
