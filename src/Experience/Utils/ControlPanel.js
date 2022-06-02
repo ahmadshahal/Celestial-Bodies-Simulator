@@ -64,17 +64,17 @@ class ControlPanel{
             },
             {
                 type: 'range' , label: 'X axis:' , folder: 'Add Planet',
-                min: -100 , max: 100 , step: 1, scale: 'linear',
+                min: -100 , max: 100 , step: 0.001, scale: 'linear',
                 object: this.tempPlanet , property : 'x',
             },
             {
                 type: 'range' , label: 'Y axis:' , folder: 'Add Planet',
-                min: -100 , max: 100 , step: 1, scale: 'linear',
+                min: -100 , max: 100 , step: 0.001, scale: 'linear',
                 object: this.tempPlanet , property : 'y',
             },
             {
                 type: 'range' , label: 'Z axis:' , folder: 'Add Planet',
-                min: -100 , max: 100 , step: 1, scale: 'linear',
+                min: -100 , max: 100 , step: 0.001, scale: 'linear',
                 object: this.tempPlanet , property : 'y',
             },
             {
@@ -89,21 +89,21 @@ class ControlPanel{
             {
                 type: 'range' , label: 'Mass(kg)' , folder: 'Add Planet',
                 object: this.tempPlanet , property: 'mass',
-                min: 0.1 , max: 1e7 , step: 1 , scale: 'linear',
+                min: 0 , max: 1e7 , step: 0.00001 , scale: 'linear',
             },
             {
                 type: 'range' , label: 'X velocity' , folder: 'Add Planet',
-                min: 0 , max: 1e7 , step: 1, scale: 'linear',
+                min: -1e7 , max: 1e7 , step: 0.1, scale: 'linear',
                 object: this.tempPlanet , property : 'xV',
             },
             {
                 type: 'range' , label: 'Y velocity' , folder: 'Add Planet',
-                min: 0 , max: 1e7 , step: 1, scale: 'linear',
+                min: -1e7 , max: 1e7 , step: 0.1, scale: 'linear',
                 object: this.tempPlanet , property : 'yV',
             },
             {
                 type: 'range' , label: 'Z velocity' , folder: 'Add Planet',
-                min: 0 , max: 1e7 , step: 1, scale: 'linear',
+                min: -1e7 , max: 1e7 , step: 0.1, scale: 'linear',
                 object: this.tempPlanet , property : 'zV',
             },
             {
@@ -166,7 +166,7 @@ class ControlPanel{
             },
             {
                 type: 'range' , label: 'Mass(kg)' , folder: planet.name,
-                min: 1e15, max: 3e30, step: 1000 , scale: 'linear',    
+                min: 1e15, max: 4e30, step: 1000 , scale: 'linear',    
                 object: planet , property: 'mass'
             },
         ]);
