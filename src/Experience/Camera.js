@@ -29,12 +29,14 @@ export default class Camera
     {
         // orbit control
         if(cur === 'Orbit Controls'){
+            this.controls.dispose();
             this.controls = new OrbitControls(this.instance, this.canvas) ;
             this.controls.enableDamping = true;
         }
 
         // fly control
         else if(cur === 'Fly Controls'){
+            if(this.controls !== undefined) this.controls.dispose();
             this.controls = new FlyControls( this.instance, this.canvas );
             this.controls.movementSpeed = 0.1;
             this.controls.rollSpeed = 0.01;
