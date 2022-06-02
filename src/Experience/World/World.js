@@ -24,22 +24,22 @@ export default class World {
         
         this.experience = new Experience()
         this.scene = this.experience.scene
-        this.scene.background = new THREE.Color(0x1c253c)
+        this.scene.background = new THREE.Color('#090909')
         
         // Scene Light
         this.sceneLight = new THREE.AmbientLight(0xb9b5ff, 0.12)
 
-        this.sun = new Planet('sun' , 0, 0, 0,/* (109 * earthRadius)*/ 0.2, 333152.42, 0, 0, 0, 0.1, null ,textures.sun,1)
+        this.sun = new Planet('sun' , 0, 0, 0,/* (109 * earthRadius)*/ 0.2, 333152.42, 0, 0, 0, 0.1, null ,textures.sun,true)
 
 
-        this.mercury = new Planet('mercury' , 0.387, 0, 0, 0.383 * this.earthRadius, 0.0553, 0, 0, 1.59 * this.earthVelocity, 0.01, null, textures.mercury,0)
-        this.venus = new Planet('venus' , 0.723, 0, 0, 0.949 * this.earthRadius, 0.815, 0, 0, 1.18 * this.earthVelocity, 0.01,null, textures.venus,0)
-        this.earth = new Planet('earth' , -1, 0, 0, this.earthRadius, 1 , 0,  0, -1 * this.earthVelocity, 0.01, null, textures.earth,0)
-        this.mars = new Planet('mars' ,1.52, 0, 0, 0.532 * this.earthRadius, 0.107, 0, 0, 0.808 * this.earthVelocity, 0.01, null, textures.mars,0)
-        this.jupiter = new Planet('jupiter' , 5.2, 0, 0, 11.21 * this.earthRadius, 317.8 , 0, 0, 0.439 * this.earthVelocity, 0.01 ,null, textures.jupiter,0)
-        this.saturn = new Planet('saturn' , 9.57 , 0, 0, 9.45 * this.earthRadius, 95.2 , 0, 0, 0.325 * this.earthVelocity, 0.01, null, textures.saturn,0)
-        this.uranus = new Planet('uranus' , 19.17 , 0, 0, 4.01 * this.earthRadius, 14.5 , 0, 0, 0.228 * this.earthVelocity, 0.01, null, textures.uranus,0)
-        this.neptune = new Planet('neptune' , 30.18 , 0, 0, 3.88 * this.earthRadius, 17.1 , 0, 0 , 0.182 * this.earthVelocity, 0.01, null, textures.neptune,0)
+        this.mercury = new Planet('mercury' , 0.387, 0, 0, 0.383 * this.earthRadius, 0.0553, 0, 0, 1.59 * this.earthVelocity, 0.01, null, textures.mercury,false)
+        this.venus = new Planet('venus' , 0.723, 0, 0, 0.949 * this.earthRadius, 0.815, 0, 0, 1.18 * this.earthVelocity, 0.01,null, textures.venus,false)
+        this.earth = new Planet('earth' , -1, 0, 0, this.earthRadius, 1 , 0,  0, -1 * this.earthVelocity, 0.01, null, textures.earth,false)
+        this.mars = new Planet('mars' ,1.52, 0, 0, 0.532 * this.earthRadius, 0.107, 0, 0, 0.808 * this.earthVelocity, 0.01, null, textures.mars,false)
+        this.jupiter = new Planet('jupiter' , 5.2, 0, 0, 11.21 * this.earthRadius, 317.8 , 0, 0, 0.439 * this.earthVelocity, 0.01 ,null, textures.jupiter,false)
+        this.saturn = new Planet('saturn' , 9.57 , 0, 0, 9.45 * this.earthRadius, 95.2 , 0, 0, 0.325 * this.earthVelocity, 0.01, null, textures.saturn,false)
+        this.uranus = new Planet('uranus' , 19.17 , 0, 0, 4.01 * this.earthRadius, 14.5 , 0, 0, 0.228 * this.earthVelocity, 0.01, null, textures.uranus,false)
+        this.neptune = new Planet('neptune' , 30.18 , 0, 0, 3.88 * this.earthRadius, 17.1 , 0, 0 , 0.182 * this.earthVelocity, 0.01, null, textures.neptune,false)
 
         this.planets = [
             this.sun,
@@ -158,6 +158,8 @@ export default class World {
         planet.mesh.position.x = planet.position.x * this.SCALE
         planet.mesh.position.y = planet.position.y * this.SCALE
         planet.mesh.position.z = planet.position.z * this.SCALE
+        if(planet.star)
+            planet.starLight.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
         this.drawPlanetOrbit(planet);
     }
 

@@ -17,6 +17,7 @@ export default class Planet {
         this.momentum = new THREE.Vector3(xV * this.mass, yV * this.mass, zV * this.mass)
         this.rotationalSpeed = rotationalSpeed
         this.orbit = new PathPoint(x * this.world.SCALE, y * this.world.SCALE, z * this.world.SCALE);
+        this.star = star;
         if(star) {
             this.material = new THREE.MeshBasicMaterial();
             this.starLight = new THREE.PointLight(0xffffff , 1 , 0);

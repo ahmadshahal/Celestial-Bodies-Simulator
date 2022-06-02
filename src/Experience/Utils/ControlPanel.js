@@ -20,7 +20,8 @@ class ControlPanel{
             color: '#FFFFFF',
             mass: 1, 
             xV: 0, yV: 0, zV: earthVelocity,
-            rotationSpeed : 0
+            rotationSpeed : 0,
+            star : false
         };
 
         // initial the panel
@@ -34,6 +35,9 @@ class ControlPanel{
 
         // fill axes folder
         this.editAxes();
+
+        // fill the controllers folder
+        this.editControllers();
     }
 
     initialization(){
@@ -52,7 +56,8 @@ class ControlPanel{
             {type: 'folder' , label: 'Add Planet'},
             {type: 'folder' , label: 'Delete Planet'},
             {type: 'folder' , label: 'Time Step'},
-            {type: 'folder' , label: 'Axes'}
+            {type: 'folder' , label: 'Helpers'},
+            {type: 'folder' , label: 'Controllers'}
         ]);
     }
 
@@ -75,7 +80,7 @@ class ControlPanel{
             {
                 type: 'range' , label: 'Z axis:' , folder: 'Add Planet',
                 min: -100 , max: 100 , step: 0.001, scale: 'linear',
-                object: this.tempPlanet , property : 'y',
+                object: this.tempPlanet , property : 'z',
             },
             {
                 type: 'range' , label: 'Radius' , folder: 'Add Planet',
@@ -112,6 +117,10 @@ class ControlPanel{
                 object: this.tempPlanet , property: 'rotationSpeed'
             },  
             {
+                type: 'checkbox' , label: 'start' , folder: 'Add Planet',
+                object: this.tempPlanet , property: 'star',
+            },
+            {
                 type: 'button' , label: 'Add Planet' , folder: 'Add Planet',
                 action: (value) => {
                     const planets = this.experience.world.planets;
@@ -131,7 +140,7 @@ class ControlPanel{
                     const newPlanet = new Planet(this.tempPlanet.name , this.tempPlanet.x , this.tempPlanet.y, this.tempPlanet.z,
                                                 this.tempPlanet.radius , this.tempPlanet.mass , this.tempPlanet.xV ,
                                                 this.tempPlanet.yV , this.tempPlanet.zV , this.tempPlanet.rotationSpeed,
-                                                this.tempPlanet.color , null);
+                                                this.tempPlanet.color , null , this.tempPlanet.star);
                     planets.forEach(e => {
                         if(newPlanet.areCollided(e)){
                             this.gui.Toast('Planet can not be added in this coordinates');
@@ -160,6 +169,10 @@ class ControlPanel{
                 object: planet.mesh.material , property: 'wireframe',
             },
             {
+                type: 'checkbox' , label: 'orbit' , folder: planet.name,
+                object: planet.orbit.line , property: 'visible',
+            },
+            {
                 type: 'color' , label: 'Color' , folder: planet.name,
                 initial: planet.mesh.material.color.getHexString(), format : 'hex',
                 onChange: (value) => { planet.mesh.material.color.set(value)}
@@ -182,6 +195,7 @@ class ControlPanel{
                     planets.splice(index , 1);
                     planet.mesh.removeFromParent();
                     planet.orbit.line.removeFromParent();
+                    if(planet.star) planet.starLight.removeFromParent();
                     this.gui.loadedComponents.forEach(e => {
                         if(e.opts.label === `Delete ${planet.name}` || e.opts.label === planet.name){   
                             this.gui.Remove(e);
@@ -210,10 +224,30 @@ class ControlPanel{
 
     editAxes(){
         const mainAxes = this.experience.axes.mainAxes;
+        const stats = this.experience.statsHelper.stats;
+        const grid = this.experience.gridHelper.mainGridHelper;
         this.gui.Register([
             {
-                type: 'checkbox' , label: 'visible' , folder: 'Axes',
+                type: 'checkbox' , label: 'Axes' , folder: 'Helpers',
                 object: mainAxes , property: 'visible',
+            },
+            {
+                type: 'checkbox' , label: 'stats' , folder: 'Helpers',
+                initial: false, onChange: (value) => stats.dom.hidden = !value
+            },
+            {
+                type: 'checkbox' , label: 'grid' , folder: 'Helpers',
+                object: grid , property: 'visible',
+            },
+        ]);
+    }
+
+    editControllers(){
+        this.gui.Register([
+            {
+                type: 'select' , label: 'controls' , folder: 'Controllers',
+                options: ['Fly Controls' , 'Orbit Controls'],
+                onChange: (value) => this.experience.camera.setControls(value)
             }
         ]);
     }

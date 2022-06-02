@@ -8,7 +8,7 @@ class Particle {
         this.scene = this.experience.scene
 
         // particles number & position
-        this.count = 500
+        this.count = 1000
         this.particlesGeometry = new THREE.BufferGeometry()
         this.positions = new Float32Array(this.count * 3)
         for (let i = 0; i < (this.count * 3); i++) {

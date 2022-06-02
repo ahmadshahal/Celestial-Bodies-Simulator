@@ -15,7 +15,7 @@ export default class Camera
         this.canvas = this.experience.canvas
 
         this.setInstance()
-        this.setControls()
+        this.setControls('Fly Controls');
     }
 
     setInstance()
@@ -25,15 +25,23 @@ export default class Camera
         this.scene.add(this.instance)
     }
 
-    setControls()
+    setControls(cur)
     {
-        // this.controls = new OrbitControls(this.instance, this.canvas) ;
-        this.controls = new FlyControls( this.instance, this.canvas );
-        this.controls.movementSpeed = 0.1;
-        this.controls.rollSpeed = 0.01;
-        this.controls.autoForward = false;
-        this.controls.dragToLook = false;
+        // orbit control
+        if(cur === 'Orbit Controls'){
+            this.controls = new OrbitControls(this.instance, this.canvas) ;
+            this.controls.enableDamping = true;
+        }
 
+        // fly control
+        else if(cur === 'Fly Controls'){
+            this.controls = new FlyControls( this.instance, this.canvas );
+            this.controls.movementSpeed = 0.1;
+            this.controls.rollSpeed = 0.01;
+            this.controls.autoForward = false;
+            this.controls.dragToLook = false;
+            this.controls.dragToLook = true;
+        }
     }
 
     resize()
@@ -44,6 +52,6 @@ export default class Camera
 
     update()
     {
-        this.controls.update(0.5)
+        this.controls.update(0.5);
     }
 }

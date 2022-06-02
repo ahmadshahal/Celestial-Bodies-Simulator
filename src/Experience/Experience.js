@@ -7,6 +7,8 @@ import World from './World/World.js'
 import Axes from './Utils/Axes';
 import ControlPanel from './Utils/ControlPanel';
 import Particle from './World/particles';
+import StatsHelper from './Utils/StatsHelper';
+import GridHelper from './Utils/GridHelper.js'
 
 let instance = null
 
@@ -32,10 +34,12 @@ export default class Experience
         this.sizes = new Sizes()
         this.time = new Time()
         this.scene = new THREE.Scene()
+        this.camera = new Camera();
         this.axes = new Axes();
+        this.statsHelper = new StatsHelper();
+        this.gridHelper = new GridHelper();
         this.controlPanel = new ControlPanel();
         //this.resources = new Resources(sources)
-        this.camera = new Camera();
         this.renderer = new Renderer();
         this.world = new World();
         this.Particle = new Particle();
@@ -65,5 +69,6 @@ export default class Experience
         this.camera.update()
         this.world.update()
         this.renderer.update()
+        this.statsHelper.stats.update();
     }
 }
