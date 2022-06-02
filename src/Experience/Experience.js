@@ -6,6 +6,7 @@ import Renderer from './Renderer.js'
 import World from './World/World.js'
 import Axes from './Utils/Axes';
 import ControlPanel from './Utils/ControlPanel';
+import Particle from './World/particles';
 
 let instance = null
 
@@ -37,6 +38,7 @@ export default class Experience
         this.camera = new Camera();
         this.renderer = new Renderer();
         this.world = new World();
+        this.Particle = new Particle();
 
 
         // Resize event

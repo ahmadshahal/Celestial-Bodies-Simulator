@@ -35,7 +35,6 @@ export default class Planet {
             this.scene = this.experience.scene;
             this.scene.add(this.starLight);
         }
-
         else {
             this.material = new THREE.MeshStandardMaterial();
         }

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Experience from "../Experience";
 import Planet from './Planet.js';
-import textures from '../Utils/TexturesLoader';
+import textures  from '../Utils/TexturesLoader';
 //sun radius = 696340 
 
 let instance = null
@@ -25,7 +25,7 @@ export default class World {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.scene.background = new THREE.Color(0x1c253c)
-
+        
         // Scene Light
         this.sceneLight = new THREE.AmbientLight(0xb9b5ff, 0.12)
 
@@ -149,28 +149,6 @@ export default class World {
                 // tempPlanet.mesh.position.x = tempPlanet.position.x * this.SCALE
                 // tempPlanet.mesh.position.y = tempPlanet.position.y * this.SCALE
                 // tempPlanet.mesh.position.z = tempPlanet.position.z * this.SCALE
-
-                // if (planet.orbit.index <= 10000) {
-                //     let index = planet.orbit.index;
-                //     planet.orbit.line.geometry.attributes.position.array[index * 3] = planet.position.x * this.SCALE;
-                //     planet.orbit.line.geometry.attributes.position.array[(index * 3) + 1] = planet.position.y * this.SCALE;
-                //     planet.orbit.line.geometry.attributes.position.array[(index * 3) + 2] = planet.position.z * this.SCALE;
-                //     planet.orbit.index++;
-                //     if (planet.orbit.line.geometry.drawRange.count < planet.orbit.index)
-                //         planet.orbit.line.geometry.setDrawRange(0, planet.orbit.index);
-                //     planet.orbit.line.geometry.attributes.position.needsUpdate = true;
-                // }
-
-                // if (tempPlanet.orbit.index <= 10000) {
-                //     let index = tempPlanet.orbit.index;
-                //     tempPlanet.orbit.line.geometry.attributes.position.array[index * 3] = tempPlanet.position.x * this.SCALE;
-                //     tempPlanet.orbit.line.geometry.attributes.position.array[(index * 3) + 1] = tempPlanet.position.y * this.SCALE;
-                //     tempPlanet.orbit.line.geometry.attributes.position.array[(index * 3) + 2] = tempPlanet.position.z * this.SCALE;
-                //     tempPlanet.orbit.index++;
-                //     if (tempPlanet.orbit.line.geometry.drawRange.count < tempPlanet.orbit.index)
-                //         tempPlanet.orbit.line.geometry.setDrawRange(0, tempPlanet.orbit.index);
-                //     tempPlanet.orbit.line.geometry.attributes.position.needsUpdate = true;
-                // }
             }
         })
     }
@@ -180,16 +158,36 @@ export default class World {
         planet.mesh.position.x = planet.position.x * this.SCALE
         planet.mesh.position.y = planet.position.y * this.SCALE
         planet.mesh.position.z = planet.position.z * this.SCALE
+        this.drawPlanetOrbit(planet);
+    }
 
-        if (planet.orbit.index <= 10000) {
-            let index = planet.orbit.index;
+    drawPlanetOrbit(planet){
+        let index = planet.orbit.pointCount;
+        if(index < 1000){
             planet.orbit.line.geometry.attributes.position.array[index * 3] = planet.position.x * this.SCALE;
             planet.orbit.line.geometry.attributes.position.array[(index * 3) + 1] = planet.position.y * this.SCALE;
             planet.orbit.line.geometry.attributes.position.array[(index * 3) + 2] = planet.position.z * this.SCALE;
-            planet.orbit.index++;
-            if (planet.orbit.line.geometry.drawRange.count < planet.orbit.index)
-                planet.orbit.line.geometry.setDrawRange(0, planet.orbit.index);
-            planet.orbit.line.geometry.attributes.position.needsUpdate = true;
+            planet.orbit.pointCount++;
+            planet.orbit.line.geometry.setDrawRange(planet.orbit.startIndex , planet.orbit.pointCount);
+        } 
+        else if(index >= 1000 && index < 10000){
+            planet.orbit.line.geometry.attributes.position.array[index * 3] = planet.position.x * this.SCALE;
+            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 1] = planet.position.y * this.SCALE;
+            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 2] = planet.position.z * this.SCALE;
+            planet.orbit.pointCount++;
+            planet.orbit.startIndex++;
+            planet.orbit.line.geometry.setDrawRange(planet.orbit.startIndex , 1000);
         }
+        else{
+            let j = 0;
+            for(let i = 27000; i < 30000 ; i++){
+                planet.orbit.line.geometry.attributes.position.array[j] =  planet.orbit.line.geometry.attributes.position.array[i];
+                j++;
+            }
+            planet.orbit.pointCount = 1000;
+            planet.orbit.startIndex = 0;
+            planet.orbit.line.geometry.setDrawRange(0 , 1000);
+        }
+        planet.orbit.line.geometry.attributes.position.needsUpdate = true;
     }
 }

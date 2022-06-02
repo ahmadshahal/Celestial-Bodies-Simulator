@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+
 const loadingManager = new THREE.LoadingManager()
 const textureLoader = new THREE.TextureLoader(loadingManager)
 
@@ -11,6 +12,7 @@ const venus = textureLoader.load('/textures/venus.jpg')
 const saturn = textureLoader.load('/textures/saturn.jpg')
 const uranus = textureLoader.load('/textures/uranus.jpg')
 const neptune = textureLoader.load('/textures/neptune.jpg')
+const particle = textureLoader.load('/textures/particles.png');
 
 const textures = {
 	sun,
@@ -21,7 +23,8 @@ const textures = {
 	venus,
 	saturn,
 	uranus, 
-	neptune
+	neptune,
+	particle,
 }
 
-export default textures
+export default textures;

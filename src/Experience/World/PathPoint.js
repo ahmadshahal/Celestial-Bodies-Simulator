@@ -6,9 +6,10 @@ export default class PathPoint {
         positions[0] = x; positions[1] = y; positions[2] = z;
         positions[3] = x; positions[4] = y; positions[5] = z;
         const geometry = new THREE.BufferGeometry().setAttribute('position' , new THREE.BufferAttribute(positions , 3));
-        const material = new THREE.LineBasicMaterial({ color: 0x000000 });
+        const material = new THREE.LineBasicMaterial({ color: 0x000000 , linewidth: 0.3 });
         geometry.setDrawRange(0 , 2);
-        this.index = 2;
+        this.pointCount = 2;
+        this.startIndex = 0;
         this.line = new THREE.Line(geometry , material);
     }
 }
