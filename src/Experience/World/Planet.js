@@ -87,6 +87,7 @@ export default class Planet {
     }
 
     areCollided(planet1) {
-        return this.position.distanceTo(planet1.position) <= this.radius + planet1.radius
+        // return this.position.distanceTo(planet1.position) <= this.radius + planet1.radius
+        return this.mesh.position.distanceTo(planet1.mesh.position) <= this.radius + planet1.radius
     }
 }
