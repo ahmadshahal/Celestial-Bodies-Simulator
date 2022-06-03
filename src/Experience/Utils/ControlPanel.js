@@ -1,11 +1,6 @@
 import { guify } from 'guify';
 import Experience from "../Experience";
-import Planet from '../World/Planet';
-
-const earthMass = 5.97 * 10 ** 24
-const AU =  149.6e6 * 1000
-const SCALE = 5 / AU
-const earthVelocity = -1 * 29.8 * 1000
+import Planet , {earthConstants} from '../World/Planet';
 
 class ControlPanel{
     constructor(){
@@ -19,7 +14,7 @@ class ControlPanel{
             radius: 0.5,
             color: '#FFFFFF',
             mass: 1, 
-            xV: 0, yV: 0, zV: earthVelocity,
+            xV: 0, yV: 0, zV: 1,
             rotationSpeed : 0,
             star : false
         };
@@ -31,7 +26,7 @@ class ControlPanel{
         this.addPlanet();
 
         // fill the time step folder
-        setTimeout(() => this.editTimeStep() , 500);
+        this.editTimeStep();
 
         // fill axes folder
         this.editAxes();
@@ -124,7 +119,6 @@ class ControlPanel{
                 type: 'button' , label: 'Add Planet' , folder: 'Add Planet',
                 action: (value) => {
                     const planets = this.experience.world.planets;
-                    console.log(planets);
                     let f = true;
                     if(this.tempPlanet.name === ''){
                         this.gui.Toast('Please insert name for the planet');
@@ -207,17 +201,16 @@ class ControlPanel{
     }
 
     editTimeStep(){
-        const world = this.experience.world;
-        const TIME_STEP = world.TIME_STEP
+        const TIME_STEP = earthConstants.TIME_STEP;
         this.gui.Register([
             {
                 type: 'range' , label: 'Time step' , folder: 'Time Step',
                 min: 0 , max: TIME_STEP * 3 , step: 60 , scale: 'linear' , precision: 4,
-                object: world , property: 'TIME_STEP',
+                object: earthConstants , property: 'TIME_STEP',
             },
             {
                 type: 'button' , label: 'Reset time step' , folder: 'Time Step',
-                action: () => world.TIME_STEP = TIME_STEP,
+                action: () => earthConstants.TIME_STEP = TIME_STEP,
             }
         ]);
     }

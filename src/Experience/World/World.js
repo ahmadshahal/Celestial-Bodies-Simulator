@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import Experience from "../Experience";
-import Planet from './Planet.js';
+import Planet , {earthConstants} from './Planet.js';
 import textures  from '../Utils/TexturesLoader';
+
 //sun radius = 696340 
 
 let instance = null
@@ -13,33 +14,23 @@ export default class World {
             return instance
         }
         instance = this
-        //const varibales
-        this.AU =  149.6e6 * 1000
-        this.SCALE = 5 / this.AU
-        this.TIME_STEP = 24*60*60
-        // this.earthMass = 5.97 * 10 ** 24
-        this.radiusScale = 1/(6378 * 2)
-        this.earthRadius = 6378 * this.radiusScale
-        this.earthVelocity = -1 * 29.8 * 1000
-        
         this.experience = new Experience()
         this.scene = this.experience.scene
-        this.scene.background = new THREE.Color('#090909')
+        this.scene.background = new THREE.Color('#090909');
         
         // Scene Light
         this.sceneLight = new THREE.AmbientLight(0xb9b5ff, 0.12)
 
         this.sun = new Planet('sun' , 0, 0, 0,/* (109 * earthRadius)*/ 0.2, 333152.42, 0, 0, 0, 0.1, null ,textures.sun,true)
 
-
-        this.mercury = new Planet('mercury' , 0.387, 0, 0, 0.383 * this.earthRadius, 0.0553, 0, 0, 1.59 * this.earthVelocity, 0.01, null, textures.mercury,false)
-        this.venus = new Planet('venus' , 0.723, 0, 0, 0.949 * this.earthRadius, 0.815, 0, 0, 1.18 * this.earthVelocity, 0.01,null, textures.venus,false)
-        this.earth = new Planet('earth' , -1, 0, 0, this.earthRadius, 1 , 0,  0, -1 * this.earthVelocity, 0.01, null, textures.earth,false)
-        this.mars = new Planet('mars' ,1.52, 0, 0, 0.532 * this.earthRadius, 0.107, 0, 0, 0.808 * this.earthVelocity, 0.01, null, textures.mars,false)
-        this.jupiter = new Planet('jupiter' , 5.2, 0, 0, 11.21 * this.earthRadius, 317.8 , 0, 0, 0.439 * this.earthVelocity, 0.01 ,null, textures.jupiter,false)
-        this.saturn = new Planet('saturn' , 9.57 , 0, 0, 9.45 * this.earthRadius, 95.2 , 0, 0, 0.325 * this.earthVelocity, 0.01, null, textures.saturn,false)
-        this.uranus = new Planet('uranus' , 19.17 , 0, 0, 4.01 * this.earthRadius, 14.5 , 0, 0, 0.228 * this.earthVelocity, 0.01, null, textures.uranus,false)
-        this.neptune = new Planet('neptune' , 30.18 , 0, 0, 3.88 * this.earthRadius, 17.1 , 0, 0 , 0.182 * this.earthVelocity, 0.01, null, textures.neptune,false)
+        this.mercury = new Planet('mercury' , 0.387, 0, 0, 0.383 , 0.0553, 0, 0, 1.59 , 0.01, null, textures.mercury,false)
+        this.venus = new Planet('venus' , 0.723, 0, 0, 0.949 , 0.815, 0, 0, 1.18 , 0.01,null, textures.venus,false)
+        this.earth = new Planet('earth' , -1, 0, 0, 1, 1 , 0,  0, -1 , 0.01, null, textures.earth,false)
+        this.mars = new Planet('mars' ,1.52, 0, 0, 0.532 , 0.107, 0, 0, 0.808 , 0.01, null, textures.mars,false)
+        this.jupiter = new Planet('jupiter' , 5.2, 0, 0, 11.21 , 317.8 , 0, 0, 0.439 , 0.01 ,null, textures.jupiter,false)
+        this.saturn = new Planet('saturn' , 9.57 , 0, 0, 9.45 , 95.2 , 0, 0, 0.325 , 0.01, null, textures.saturn,false)
+        this.uranus = new Planet('uranus' , 19.17 , 0, 0, 4.01 , 14.5 , 0, 0, 0.228 , 0.01, null, textures.uranus,false)
+        this.neptune = new Planet('neptune' , 30.18 , 0, 0, 3.88 , 17.1 , 0, 0 , 0.182 , 0.01, null, textures.neptune,false)
 
         this.planets = [
             this.sun,
@@ -82,7 +73,6 @@ export default class World {
             this.experience.controlPanel.editPlanet(planet);
             this.experience.controlPanel.deletePlanet(planet);
         });
-
     }
     
     update() {
@@ -101,8 +91,9 @@ export default class World {
                 force.add(tempPlanet.gravitationalForce(planet))
             }
         })
-        planet.momentum = planet.momentum.clone().add(force.multiplyScalar(this.TIME_STEP))
+        planet.momentum = planet.momentum.clone().add(force.multiplyScalar(earthConstants.TIME_STEP));
     }
+
     collisionUpdate(planet) {
         const COR = 1
         this.planets.forEach((tempPlanet) => {
@@ -110,9 +101,7 @@ export default class World {
                 if (planet.areCollided(tempPlanet)) {
                     const n = planet.position.clone().sub(tempPlanet.position.clone())
                     const un = n.clone().divideScalar(n.length())
-
                     let ut = new THREE.Vector3(-un.y, un.x, un.z)
-
 
                     // !: Start of Danger Zone
                     const temp = un.clone().cross(ut);
@@ -152,12 +141,13 @@ export default class World {
             }
         })
     }
+
     positionUpdate(planet) {
         const speed = planet.momentum.clone().divideScalar(planet.mass)
-        planet.position = planet.position.clone().add(speed.clone().multiplyScalar(this.TIME_STEP))
-        planet.mesh.position.x = planet.position.x * this.SCALE
-        planet.mesh.position.y = planet.position.y * this.SCALE
-        planet.mesh.position.z = planet.position.z * this.SCALE
+        planet.position = planet.position.clone().add(speed.clone().multiplyScalar(earthConstants.TIME_STEP))
+        planet.mesh.position.x = planet.position.x * earthConstants.SCALE;
+        planet.mesh.position.y = planet.position.y * earthConstants.SCALE;
+        planet.mesh.position.z = planet.position.z * earthConstants.SCALE;
         if(planet.star)
             planet.starLight.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
         this.drawPlanetOrbit(planet);
@@ -166,16 +156,16 @@ export default class World {
     drawPlanetOrbit(planet){
         let index = planet.orbit.pointCount;
         if(index < 1000){
-            planet.orbit.line.geometry.attributes.position.array[index * 3] = planet.position.x * this.SCALE;
-            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 1] = planet.position.y * this.SCALE;
-            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 2] = planet.position.z * this.SCALE;
+            planet.orbit.line.geometry.attributes.position.array[index * 3] = planet.position.x * earthConstants.SCALE;
+            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 1] = planet.position.y * earthConstants.SCALE;
+            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 2] = planet.position.z * earthConstants.SCALE;
             planet.orbit.pointCount++;
             planet.orbit.line.geometry.setDrawRange(planet.orbit.startIndex , planet.orbit.pointCount);
         } 
         else if(index >= 1000 && index < 10000){
-            planet.orbit.line.geometry.attributes.position.array[index * 3] = planet.position.x * this.SCALE;
-            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 1] = planet.position.y * this.SCALE;
-            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 2] = planet.position.z * this.SCALE;
+            planet.orbit.line.geometry.attributes.position.array[index * 3] = planet.position.x * earthConstants.SCALE;
+            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 1] = planet.position.y * earthConstants.SCALE;
+            planet.orbit.line.geometry.attributes.position.array[(index * 3) + 2] = planet.position.z * earthConstants.SCALE;
             planet.orbit.pointCount++;
             planet.orbit.startIndex++;
             planet.orbit.line.geometry.setDrawRange(planet.orbit.startIndex , 1000);

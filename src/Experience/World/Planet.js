@@ -1,31 +1,38 @@
 import * as THREE from 'three'
 import PathPoint from './PathPoint'
 import Experience from "../Experience";
-import World from './World'
 
-const earthMass = 5.97 * 10 ** 24
+export const earthConstants = {
+    AU : 149.6e6 * 1000,
+    SCALE : 5 / (149.6e6 * 1000), // AU value 
+    TIME_STEP : 24*60*60,
+    earthMass : 5.97 * 10 ** 24,
+    radiusScale : 1/(6378 * 2),
+    earthRadius : 6378 * (1/(6378 * 2)), // radiusScale
+    earthVelocity : -1 * 29.8 * 1000,
+}
 
 export default class Planet {
     constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star) {
+        this.experience = new Experience();
+        this.scene = this.experience.scene;
         this.name = name;
-        this.world = new World()
-        x *= this.world.AU; y *= this.world.AU; z *= this.world.AU
-        this.position = new THREE.Vector3(x, y, z)
-        this.radius = radius
-        this.mass = mass * earthMass
-        this.color = color
-        this.momentum = new THREE.Vector3(xV * this.mass, yV * this.mass, zV * this.mass)
+        x *= earthConstants.AU; y *= earthConstants.AU; z *= earthConstants.AU;
+        this.position = new THREE.Vector3(x, y, z);
+        this.radius = radius * earthConstants.earthRadius;
+        this.mass = mass * earthConstants.earthMass; 
+        this.momentum = new THREE.Vector3(xV * this.mass, yV * this.mass, zV * this.mass * earthConstants.earthVelocity);
         this.rotationalSpeed = rotationalSpeed
-        this.orbit = new PathPoint(x * this.world.SCALE, y * this.world.SCALE, z * this.world.SCALE);
+        this.orbit = new PathPoint(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
         this.star = star;
+
         if(star) {
             this.material = new THREE.MeshBasicMaterial();
             this.starLight = new THREE.PointLight(0xffffff , 1 , 0);
-            this.starLight.position.set(x * this.world.SCALE, y * this.world.SCALE, z * this.world.SCALE);
+            this.starLight.position.set(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
 
             // Shadow of the light
             this.starLight.castShadow = true;
-            console.log(this.starLight.shadow);
             this.starLight.shadow.mapSize.width = 1024;
             this.starLight.shadow.mapSize.height = 1024;
             this.starLight.shadow.camera.top = 10
@@ -35,29 +42,29 @@ export default class Planet {
             // this.starLight.shadow.radius = 20
             // this.starLight.shadow.blurSamples = 0;
 
-            this.experience = new Experience();
-            this.scene = this.experience.scene;
             this.scene.add(this.starLight);
         }
         else {
             this.material = new THREE.MeshStandardMaterial();
         }
-        
+
         if(texture !== null) this.material.map = texture;
-        if(color !== null) this.material.color = new THREE.Color(this.color);
+        if(color !== null) this.material.color = new THREE.Color(color);
+
         this.mesh = new THREE.Mesh(
-            new THREE.SphereGeometry(this.radius, 32, 32),
+            new THREE.SphereBufferGeometry(this.radius, 32, 32),
             this.material
         )
+
         // Shadow 
         if(!star){
             this.mesh.castShadow = true;
             this.mesh.receiveShadow = true;
         }
 
-        this.mesh.position.x = this.position.x * this.world.SCALE
-        this.mesh.position.y = this.position.y * this.world.SCALE
-        this.mesh.position.z = this.position.z * this.world.SCALE
+        this.mesh.position.x = this.position.x * earthConstants.SCALE
+        this.mesh.position.y = this.position.y * earthConstants.SCALE
+        this.mesh.position.z = this.position.z * earthConstants.SCALE
     }
 
     getVelocity() {
