@@ -1,21 +1,13 @@
 import * as THREE from 'three'
 import Experience from "../Experience";
 import World from './World'
-
-export const earthConstants = {
-    AU : 149.6e6 * 1000,
-    SCALE : 5 / (149.6e6 * 1000), // AU value 
-    TIME_STEP : 24*60*60,
-    earthMass : 5.97 * 10 ** 24,
-    radiusScale : 1/(6378 * 2),
-    earthRadius : 6378 * (1/(6378 * 2)), // radiusScale
-    earthVelocity : -1 * 29.8 * 1000,
-}
+import Planet , {earthConstants} from './Planet'
 
 export default class asteroid{
     constructor(name, x , y , z , radius , mass , xV , yV , zV , color , texture , alpha , hight , normal , roughness){
         this.name = name;
         this.world = new World()
+        this.planet = new Planet()
         x *= earthConstants.AU; y *= earthConstants.AU; z *= earthConstants.AU;
         this.position = new THREE.Vector3(x, y, z);
         this.radius = radius * earthConstants.earthRadius;
@@ -52,5 +44,4 @@ export default class asteroid{
         this.experience = new Experience()
         this.experience.scene.add(this.mesh);
     }
-    
 }
