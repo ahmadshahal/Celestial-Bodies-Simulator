@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Experience from "../Experience";
 import Planet , {earthConstants} from './Planet.js';
+import Asteroid from './asteroid';
 import textures  from '../Utils/TexturesLoader';
 
 //sun radius = 696340 
@@ -20,6 +21,9 @@ export default class World {
         
         // Scene Light
         this.sceneLight = new THREE.AmbientLight(0xb9b5ff, 0.12)
+
+        // asteroid
+        this.asteroid = new Asteroid('ast', 0.5 , 0.5 , 0 , 1 , 1 , 1 , 1 , 1 , null , textures.asteroid , textures.asteroidAlpha , textures.asteroidHight , textures.asteroidNormal , textures.asteroidRoughness);
 
         this.sun = new Planet('sun' , 0, 0, 0,/* (109 * earthRadius)*/ 0.2, 333152.42, 0, 0, 0, 0.1, null ,textures.sun,true)
 

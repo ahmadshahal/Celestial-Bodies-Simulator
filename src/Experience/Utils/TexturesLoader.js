@@ -14,6 +14,12 @@ const uranus = textureLoader.load('/textures/uranus.jpg')
 const neptune = textureLoader.load('/textures/neptune.jpg')
 const particle = textureLoader.load('/textures/particles.png');
 
+const asteroid = textureLoader.load('/textures/asteroid.jpg')
+const asteroidAlpha = textureLoader.load('/textures/asteroid_Alpha.jpg')
+const asteroidHight	 = textureLoader.load('/textures/asteroid_height.png')
+const asteroidNormal = textureLoader.load('/textures/asteroid_normal.png')
+const asteroidRoughness = textureLoader.load('/textures/asteroid_roughness.jpg')
+
 const textures = {
 	sun,
 	earth,
@@ -25,6 +31,11 @@ const textures = {
 	uranus, 
 	neptune,
 	particle,
+	asteroid,
+	asteroidAlpha,
+	asteroidHight,
+	asteroidNormal,
+	asteroidRoughness
 }
 
 export default textures;
