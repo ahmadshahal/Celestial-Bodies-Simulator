@@ -4,8 +4,8 @@ import Experience from "../Experience";
 
 export const earthConstants = {
     AU : 149.6e6 * 1000,
-    SCALE : 5 / (149.6e6 * 1000), // AU value 
-    TIME_STEP : 24*60*60,
+    SCALE : 200 / (149.6e6 * 1000), // AU value    // change from 10 to 200;    
+    TIME_STEP : 2000, /// change from 24 * 60 * 60 to 2000
     earthMass : 5.97 * 10 ** 24,
     radiusScale : 1/(6378 * 2),
     earthRadius : 6378 * (1/(6378 * 2)), // radiusScale
@@ -29,7 +29,7 @@ export default class Planet {
 
         if(star) {
             this.material = new THREE.MeshBasicMaterial();
-            this.starLight = new THREE.PointLight(0xffffff , 1 , 0);
+            this.starLight = new THREE.PointLight(0xffffff , 1 , 11000);
             this.starLight.position.set(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
 
             // Shadow of the light
@@ -74,9 +74,11 @@ export default class Planet {
             }
             this.planetRings = new THREE.Mesh(
                 ringGeometry,
-                new THREE.MeshBasicMaterial({map: ringTexture , side: THREE.DoubleSide })
+                new THREE.MeshStandardMaterial({map: ringTexture , side : THREE.BackSide})
             );
+            this.planetRings.receiveShadow = true;
             this.planetRings.rotateX(Math.PI / 1.9);
+            this.planetRings.rotateY(0.4);
             this.planetRings.position.set(x * earthConstants.SCALE , y * earthConstants.SCALE , z * earthConstants.SCALE);
             this.scene.add( this.planetRings );
         }

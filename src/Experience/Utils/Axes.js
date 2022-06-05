@@ -5,7 +5,7 @@ class Axes{
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
-        this.mainAxes = new THREE.AxesHelper(10);
+        this.mainAxes = new THREE.AxesHelper(100);
         this.mainAxes.visible = false;
         this.scene.add(this.mainAxes);
     }

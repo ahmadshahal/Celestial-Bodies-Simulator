@@ -28,8 +28,8 @@ class ControlPanel{
         // fill the time step folder
         this.editTimeStep();
 
-        // fill axes folder
-        this.editAxes();
+        // fill Helper folder
+        this.editHelper();
 
         // fill the controllers folder
         this.editControllers();
@@ -234,7 +234,7 @@ class ControlPanel{
         this.gui.Register([
             {
                 type: 'range' , label: 'Time step' , folder: 'Time Step',
-                min: 0 , max: TIME_STEP * 3 , step: 60 , scale: 'linear' , precision: 4,
+                min: 0 , max: TIME_STEP * 10 , step: 60 , scale: 'linear' , precision: 4,
                 object: earthConstants , property: 'TIME_STEP',
             },
             {
@@ -244,22 +244,35 @@ class ControlPanel{
         ]);
     }
 
-    editAxes(){
+    editHelper(){
         const mainAxes = this.experience.axes.mainAxes;
         const stats = this.experience.statsHelper.stats;
         const grid = this.experience.gridHelper.mainGridHelper;
         this.gui.Register([
             {
-                type: 'checkbox' , label: 'Axes' , folder: 'Helpers',
+                type: 'folder' , label: 'Axes' , folder: 'Helpers',
+            },
+            {
+                type: 'checkbox' , label: 'Axes' , folder: 'Axes',
                 object: mainAxes , property: 'visible',
             },
             {
-                type: 'checkbox' , label: 'stats' , folder: 'Helpers',
-                initial: false, onChange: (value) => stats.dom.hidden = !value
+                type: 'range' , label: 'Axes size' , folder: 'Axes',
+                min: 1 , max: 1000 , step: 1 , scale: 'linear', initial: 100,
+                onChange: (value) => {
+                    mainAxes.geometry.attributes.position.array[3] = value;
+                    mainAxes.geometry.attributes.position.array[10] = value;
+                    mainAxes.geometry.attributes.position.array[17] = value;
+                    mainAxes.geometry.attributes.position.needsUpdate = true;
+                }
             },
             {
                 type: 'checkbox' , label: 'grid' , folder: 'Helpers',
                 object: grid , property: 'visible',
+            },
+            {
+                type: 'checkbox' , label: 'stats' , folder: 'Helpers',
+                initial: false, onChange: (value) => stats.dom.hidden = !value
             },
         ]);
     }

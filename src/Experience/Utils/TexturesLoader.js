@@ -13,6 +13,10 @@ const venus = textureLoader.load('/textures/venus.jpg')
 const saturn = textureLoader.load('/textures/saturn.jpg')
 const uranus = textureLoader.load('/textures/uranus.jpg')
 const neptune = textureLoader.load('/textures/neptune.jpg')
+const pluto = textureLoader.load('/textures/pluto.jpg')
+
+//moon
+const moon = textureLoader.load('/textures/moon.png')
 
 //particle
 const particle = textureLoader.load('/textures/particles.png');
@@ -37,6 +41,7 @@ const textures = {
 	saturn,
 	uranus, 
 	neptune,
+	pluto,
 	particle,
 	asteroid,
 	asteroidAlpha,
@@ -44,6 +49,7 @@ const textures = {
 	asteroidNormal,
 	asteroidRoughness,
 	saturnRing,
+	moon,
 }
 
 export default textures;

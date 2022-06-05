@@ -101,6 +101,10 @@ body{
     padding-right: 10px;
 }
 
+.guify-container *{
+    font-family: cursive !important;
+}
+
 .guify-panel-container-scrollable{
     overflow-y: auto !important;
     overflow-x: hidden !important;
