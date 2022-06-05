@@ -164,6 +164,11 @@ export default class World {
         planet.mesh.position.x = planet.position.x * earthConstants.SCALE;
         planet.mesh.position.y = planet.position.y * earthConstants.SCALE;
         planet.mesh.position.z = planet.position.z * earthConstants.SCALE;
+        if(planet.nameMesh !== undefined){
+            planet.nameMesh.position.x = planet.mesh.position.x;
+            planet.nameMesh.position.z = planet.mesh.position.z;
+            planet.nameMesh.lookAt(this.experience.camera.instance.position);
+        }
         if(planet.star)
             planet.starLight.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
         if(planet.ring)

@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import PathPoint from './PathPoint'
 import Experience from "../Experience";
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 
 export const earthConstants = {
     AU : 149.6e6 * 1000,
@@ -82,6 +84,29 @@ export default class Planet {
             this.planetRings.position.set(x * earthConstants.SCALE , y * earthConstants.SCALE , z * earthConstants.SCALE);
             this.scene.add( this.planetRings );
         }
+
+        // add name 
+        const loader = new FontLoader();
+        loader.load(
+            '/fonts/Recursive Monospace Casual_Regular.json',
+            (font) => {
+                this.nameMesh = new THREE.Mesh(
+                    new TextGeometry( this.name , {
+                        font: font, 
+                        size: 4,
+                        height: 0.5,
+                        curveSegments: 12,
+                        bevelEnabled: false,
+                        bevelThickness: 0.1,
+                        bevelSize: 0.1,
+                        bevelSegments: 0.1
+                    }).center(),
+                    new THREE.MeshBasicMaterial({color: '#FFFFFF'}),
+                );
+                this.nameMesh.position.set(x * earthConstants.SCALE , (y * earthConstants.SCALE) + this.radius + 10 , z * earthConstants.SCALE );
+                this.scene.add(this.nameMesh)
+            }
+        );
 
         this.mesh.position.x = this.position.x * earthConstants.SCALE
         this.mesh.position.y = this.position.y * earthConstants.SCALE
