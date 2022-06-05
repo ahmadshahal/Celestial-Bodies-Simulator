@@ -1,8 +1,9 @@
 import * as THREE from 'three'
 import Experience from './Experience.js'
 import Renderer from './Renderer'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { FlyControls } from 'three/examples/jsm/controls/FlyControls';
+import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 
 
 export default class Camera
@@ -43,6 +44,15 @@ export default class Camera
             this.controls.autoForward = false;
             this.controls.dragToLook = false;
             this.controls.dragToLook = true;
+        }
+
+        else if(cur === 'First Person Controls'){
+            this.controls.dispose();
+            this.controls = new FirstPersonControls(this.instance , this.canvas);
+            this.controls.movementSpeed = 0.008;
+            this.controls.lookSpeed = 0.007;
+            this.controls.heightSpeed = 0.007;
+            this.controls.mouseDragOn = true;
         }
     }
 

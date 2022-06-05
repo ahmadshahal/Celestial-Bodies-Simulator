@@ -33,6 +33,9 @@ class ControlPanel{
 
         // fill the controllers folder
         this.editControllers();
+
+        //add reset world button
+        this.resetWorld();
     }
 
     initialization(){
@@ -59,6 +62,10 @@ class ControlPanel{
     addPlanet(){
         this.gui.Register([
             {
+                type: 'text' , label: 'Warning' , folder: 'Add Planet',
+                initial: 'All value on earth scale!!!' , enabled: false,
+            },
+            {
                 type: 'text' , label: 'Planet name:' , folder: 'Add Planet',
                 object: this.tempPlanet , property: 'name',
             },
@@ -79,7 +86,7 @@ class ControlPanel{
             },
             {
                 type: 'range' , label: 'Radius' , folder: 'Add Planet',
-                min: 0.001 , max: 2 , step: 0.01, scale: 'linear',
+                min: 0.001 , max: 10 , step: 0.01, scale: 'linear',
                 object: this.tempPlanet , property : 'radius',
             },
             {
@@ -87,9 +94,9 @@ class ControlPanel{
                 format: 'hex' , object: this.tempPlanet , property: 'color',
             },
             {
-                type: 'range' , label: 'Mass(kg)' , folder: 'Add Planet',
+                type: 'range' , label: 'Mass' , folder: 'Add Planet',
                 object: this.tempPlanet , property: 'mass',
-                min: 0 , max: 1e7 , step: 0.00001 , scale: 'linear',
+                min: 0.00001 , max: 1e7 , step: 0.00001 , scale: 'linear',
             },
             {
                 type: 'range' , label: 'X velocity' , folder: 'Add Planet',
@@ -112,7 +119,7 @@ class ControlPanel{
                 object: this.tempPlanet , property: 'rotationSpeed'
             },  
             {
-                type: 'checkbox' , label: 'start' , folder: 'Add Planet',
+                type: 'checkbox' , label: 'star' , folder: 'Add Planet',
                 object: this.tempPlanet , property: 'star',
             },
             {
@@ -134,7 +141,7 @@ class ControlPanel{
                     const newPlanet = new Planet(this.tempPlanet.name , this.tempPlanet.x , this.tempPlanet.y, this.tempPlanet.z,
                                                 this.tempPlanet.radius , this.tempPlanet.mass , this.tempPlanet.xV ,
                                                 this.tempPlanet.yV , this.tempPlanet.zV , this.tempPlanet.rotationSpeed,
-                                                this.tempPlanet.color , null , this.tempPlanet.star);
+                                                this.tempPlanet.color , null , this.tempPlanet.star , false , null);
                     planets.forEach(e => {
                         if(newPlanet.areCollided(e)){
                             this.gui.Toast('Planet can not be added in this coordinates');
@@ -149,6 +156,11 @@ class ControlPanel{
                 }
             }
         ]);
+        for(let i = 0; i < this.gui.loadedComponents.length ; i++){
+            if(this.gui.loadedComponents[i].opts.label==='Warning'){
+                this.gui.loadedComponents[i].SetEnabled(false);
+            }
+        }
     }
 
     editPlanet(planet) {
@@ -177,6 +189,22 @@ class ControlPanel{
                 object: planet , property: 'mass'
             },
         ]);
+        if(planet.star){
+            this.gui.Register([
+                {
+                    type: 'checkbox' , label: 'Star light' , folder: planet.name,
+                    object: planet.starLight , property: 'visible'
+                }
+            ]);
+        }
+        if(planet.ring){
+            this.gui.Register([
+                {
+                    type: 'checkbox' , label: 'Planet rings' , folder: planet.name,
+                    object: planet.planetRings , property: 'visible'
+                }
+            ]);
+        }
     }
 
     deletePlanet(planet){
@@ -190,6 +218,7 @@ class ControlPanel{
                     planet.mesh.removeFromParent();
                     planet.orbit.line.removeFromParent();
                     if(planet.star) planet.starLight.removeFromParent();
+                    if(planet.ring) planet.planetRings.removeFromParent();
                     this.gui.loadedComponents.forEach(e => {
                         if(e.opts.label === `Delete ${planet.name}` || e.opts.label === planet.name){   
                             this.gui.Remove(e);
@@ -239,9 +268,18 @@ class ControlPanel{
         this.gui.Register([
             {
                 type: 'select' , label: 'controls' , folder: 'Controllers',
-                options: ['Fly Controls' , 'Orbit Controls'],
+                options: ['Fly Controls' , 'Orbit Controls' , 'First Person Controls'],
                 onChange: (value) => this.experience.camera.setControls(value)
             }
+        ]);
+    }
+
+    resetWorld(){
+        this.gui.Register([
+            {
+                type: 'button' , label: 'Reset The World',
+                action: () => document.location.reload(),
+            },
         ]);
     }
 }

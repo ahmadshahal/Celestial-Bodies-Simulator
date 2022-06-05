@@ -25,16 +25,16 @@ export default class World {
         // asteroid
         this.asteroid = new Asteroid('ast', 0.5 , 0.5 , 0 , 1 , 1 , 1 , 1 , 1 , null , textures.asteroid , textures.asteroidAlpha , textures.asteroidHight , textures.asteroidNormal , textures.asteroidRoughness);
 
-        this.sun = new Planet('sun' , 0, 0, 0,/* (109 * earthRadius)*/ 0.2, 333152.42, 0, 0, 0, 0.1, null ,textures.sun,true)
+        this.sun = new Planet('sun' , 0, 0, 0,/* (109 * earthRadius)*/ 0.2, 333152.42, 0, 0, 0, 0.1, null ,textures.sun,true , false , null)
 
-        this.mercury = new Planet('mercury' , 0.387, 0, 0, 0.383 , 0.0553, 0, 0, 1.59 , 0.01, null, textures.mercury,false)
-        this.venus = new Planet('venus' , 0.723, 0, 0, 0.949 , 0.815, 0, 0, 1.18 , 0.01,null, textures.venus,false)
-        this.earth = new Planet('earth' , -1, 0, 0, 1, 1 , 0,  0, -1 , 0.01, null, textures.earth,false)
-        this.mars = new Planet('mars' ,1.52, 0, 0, 0.532 , 0.107, 0, 0, 0.808 , 0.01, null, textures.mars,false)
-        this.jupiter = new Planet('jupiter' , 5.2, 0, 0, 11.21 , 317.8 , 0, 0, 0.439 , 0.01 ,null, textures.jupiter,false)
-        this.saturn = new Planet('saturn' , 9.57 , 0, 0, 9.45 , 95.2 , 0, 0, 0.325 , 0.01, null, textures.saturn,false)
-        this.uranus = new Planet('uranus' , 19.17 , 0, 0, 4.01 , 14.5 , 0, 0, 0.228 , 0.01, null, textures.uranus,false)
-        this.neptune = new Planet('neptune' , 30.18 , 0, 0, 3.88 , 17.1 , 0, 0 , 0.182 , 0.01, null, textures.neptune,false)
+        this.mercury = new Planet('mercury' , 0.387, 0, 0, 0.383 , 0.0553, 0, 0, 1.59 , 0.01, null, textures.mercury,false , false , null)
+        this.venus = new Planet('venus' , 0.723, 0, 0, 0.949 , 0.815, 0, 0, 1.18 , 0.01,null, textures.venus,false , false , null)
+        this.earth = new Planet('earth' , -1, 0, 0, 1, 1 , 0,  0, -1 , 0.01, null, textures.earth,false ,false , null)
+        this.mars = new Planet('mars' ,1.52, 0, 0, 0.532 , 0.107, 0, 0, 0.808 , 0.01, null, textures.mars,false , false , null)
+        this.jupiter = new Planet('jupiter' , 5.2, 0, 0, 11.21 , 317.8 , 0, 0, 0.439 , 0.01 ,null, textures.jupiter,false , false , null)
+        this.saturn = new Planet('saturn' , 9.57 , 0, 0, 9.45 , 95.2 , 0, 0, 0.325 , 0.01, null, textures.saturn,false , true , textures.saturnRing);
+        this.uranus = new Planet('uranus' , 19.17 , 0, 0, 4.01 , 14.5 , 0, 0, 0.228 , 0.01, null, textures.uranus,false , false , null)
+        this.neptune = new Planet('neptune' , 30.18 , 0, 0, 3.88 , 17.1 , 0, 0 , 0.182 , 0.01, null, textures.neptune,false , false ,null)
 
         this.planets = [
             this.sun,
@@ -154,6 +154,8 @@ export default class World {
         planet.mesh.position.z = planet.position.z * earthConstants.SCALE;
         if(planet.star)
             planet.starLight.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
+        if(planet.ring)
+            planet.planetRings.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
         this.drawPlanetOrbit(planet);
     }
 

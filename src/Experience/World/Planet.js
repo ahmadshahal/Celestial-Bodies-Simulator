@@ -13,7 +13,7 @@ export const earthConstants = {
 }
 
 export default class Planet {
-    constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star) {
+    constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star , ring , ringTexture) {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.name = name;
@@ -25,6 +25,7 @@ export default class Planet {
         this.rotationalSpeed = rotationalSpeed
         this.orbit = new PathPoint(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
         this.star = star;
+        this.ring = ring;
 
         if(star) {
             this.material = new THREE.MeshBasicMaterial();
@@ -62,6 +63,24 @@ export default class Planet {
             this.mesh.receiveShadow = true;
         }
 
+        //ring
+        if(ring){
+            const ringGeometry = new THREE.RingBufferGeometry(7 , 11 , 64);
+            let pos = ringGeometry.attributes.position;
+            let v3 = new THREE.Vector3();
+            for (let i = 0; i < pos.count; i++){
+                v3.fromBufferAttribute(pos, i);
+                ringGeometry.attributes.uv.setXY(i, v3.length() < 9 ? 0 : 1, 1);
+            }
+            this.planetRings = new THREE.Mesh(
+                ringGeometry,
+                new THREE.MeshBasicMaterial({map: ringTexture , side: THREE.DoubleSide })
+            );
+            this.planetRings.rotateX(Math.PI / 1.9);
+            this.planetRings.position.set(x * earthConstants.SCALE , y * earthConstants.SCALE , z * earthConstants.SCALE);
+            this.scene.add( this.planetRings );
+        }
+
         this.mesh.position.x = this.position.x * earthConstants.SCALE
         this.mesh.position.y = this.position.y * earthConstants.SCALE
         this.mesh.position.z = this.position.z * earthConstants.SCALE
@@ -72,7 +91,8 @@ export default class Planet {
     }
 
     rotate(){
-        this.mesh.rotation.y += this.rotationalSpeed
+        this.mesh.rotation.y += this.rotationalSpeed;
+        if(this.ring) this.planetRings.rotation.z+= 0.001;
     }
 
     gravitationalForce(planet) {
