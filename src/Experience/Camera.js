@@ -41,8 +41,8 @@ export default class Camera
         else if(cur === 'Fly Controls'){
             if(this.controls !== undefined) this.controls.dispose();
             this.controls = new FlyControls( this.instance, this.canvas );
-            this.controls.movementSpeed = 0.1;
-            this.controls.rollSpeed = 0.01;
+            this.controls.movementSpeed = 5;
+            this.controls.rollSpeed = 0.04;
             this.controls.autoForward = false;
             this.controls.dragToLook = false;
             this.controls.dragToLook = true;

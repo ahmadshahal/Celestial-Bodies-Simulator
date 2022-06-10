@@ -26,7 +26,7 @@ class ControlPanel{
         this.addPlanet();
 
         // fill the time step folder
-        this.editTimeStep();
+        this.editConstants();
 
         // fill Helper folder
         this.editHelper();
@@ -52,8 +52,7 @@ class ControlPanel{
         this.gui.Register([
             {type: 'folder' , label: 'Planets'},
             {type: 'folder' , label: 'Add Planet'},
-            {type: 'folder' , label: 'Delete Planet'},
-            {type: 'folder' , label: 'Time Step'},
+            {type: 'folder' , label: 'Constants'},
             {type: 'folder' , label: 'Helpers'},
             {type: 'folder' , label: 'Controllers'}
         ]);
@@ -179,6 +178,10 @@ class ControlPanel{
                 object: planet.orbit.line , property: 'visible',
             },
             {
+                type: 'checkbox' , label: 'Momentum Vector' , folder: planet.name,
+                object: planet.momentumVector , property: 'visible',
+            },
+            {
                 type: 'color' , label: 'Color' , folder: planet.name,
                 initial: planet.mesh.material.color.getHexString(), format : 'hex',
                 onChange: (value) => { planet.mesh.material.color.set(value)}
@@ -205,18 +208,23 @@ class ControlPanel{
                 }
             ]);
         }
-    }
-
-    deletePlanet(planet){
         this.gui.Register([
             {
-                type: 'button' , label: `Delete ${planet.name}` , folder: 'Delete Planet',
+                type: 'button' , label: `Go to ${planet.name}` , folder: planet.name,
+                action: () => {
+                    this.experience.camera.instance.position.set(planet.mesh.position.x , planet.mesh.position.y+20+planet.radius , planet.mesh.position.z+20+planet.radius);
+                    this.experience.camera.instance.lookAt(planet.mesh.position);
+                }
+            },
+            {
+                type: 'button' , label: `Delete ${planet.name}` , folder: planet.name,
                 action: () => {
                     const planets = this.experience.world.planets;
                     const index = planets.indexOf(planet);
                     planets.splice(index , 1);
                     planet.mesh.removeFromParent();
                     planet.orbit.line.removeFromParent();
+                    planet.nameMesh.removeFromParent();
                     if(planet.star) planet.starLight.removeFromParent();
                     if(planet.ring) planet.planetRings.removeFromParent();
                     this.gui.loadedComponents.forEach(e => {
@@ -229,17 +237,62 @@ class ControlPanel{
         ]);
     }
 
-    editTimeStep(){
+    editConstants(){
+        const AU = earthConstants.AU;
+        const SCALE = earthConstants.SCALE;
+        const radiusScale = earthConstants.radiusScale;
         const TIME_STEP = earthConstants.TIME_STEP;
+        const earthMass = earthConstants.earthMass;
+        const earthRadius = earthConstants.earthRadius;
+        const earthVelocity = earthConstants.earthVelocity;
+        console.log(earthVelocity); 
         this.gui.Register([
             {
-                type: 'range' , label: 'Time step' , folder: 'Time Step',
+                type: 'range' , label: 'AU' , folder: 'Constants',
+                min: 0 , max: AU * 10 , step: 1000 , scale: 'linear',
+                object: earthConstants , property: 'AU',
+            },
+            {
+                type: 'range' , label: 'Scale' , folder: 'Constants',
+                min: 0 , max: 1 , setp: 0.00001, scale: 'linear', precision: 5,
+                object: earthConstants , property: 'SCALE',
+            },
+            {
+                type: 'range' , label: 'Radius Scale' , folder: 'Constants',
+                min: 0 , max: 1 , step: 0.00001 , scale: 'linear', precision: 5,
+                object: earthConstants , property: 'radiusScale',
+            },
+            {
+                type: 'range' , label: 'Time step' , folder: 'Constants',
                 min: 0 , max: TIME_STEP * 10 , step: 60 , scale: 'linear' , precision: 4,
                 object: earthConstants , property: 'TIME_STEP',
             },
             {
-                type: 'button' , label: 'Reset time step' , folder: 'Time Step',
-                action: () => earthConstants.TIME_STEP = TIME_STEP,
+                type: 'range' , label: 'Earth Mass' , folder: 'Constants',
+                min: 0 , max: earthMass * 100 , step: 1000 , scale: 'linear',
+                object: earthConstants , property: 'earthMass',
+            },
+            {
+                type: 'range' , label: 'Earth Radius' , folder: 'Constants',
+                min: 0 , max: 10 , step: 0.1 , scale: 'linear', precision: 5,
+                object: earthConstants , property: 'earthRadius',
+            },
+            {
+                type: 'range' , label: 'Earth Velocity' , folder: 'Constants',
+                min: earthVelocity * 100 , max: earthVelocity * -100 , step: 1000 , scale: 'linear',
+                object: earthConstants , property: 'earthVelocity',
+            },
+            {
+                type: 'button' , label: 'Reset All' , folder: 'Constants',
+                action: () => {
+                    earthConstants.AU = AU;
+                    earthConstants.SCALE = SCALE;
+                    earthConstants.TIME_STEP = TIME_STEP;
+                    earthConstants.earthMass = earthMass;
+                    earthConstants.earthRadius = earthRadius;
+                    earthConstants.earthVelocity = earthVelocity;
+                    earthConstants.radiusScale = radiusScale;
+                }
             }
         ]);
     }

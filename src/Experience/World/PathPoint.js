@@ -9,7 +9,6 @@ export default class PathPoint {
         const material = new THREE.LineBasicMaterial({ color: '#777777' , linewidth: 0.3 });
         geometry.setDrawRange(0 , 2);
         this.pointCount = 2;
-        this.startIndex = 0;
         this.line = new THREE.Line(geometry , material);
     }
 }

@@ -7,10 +7,10 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 export const earthConstants = {
     AU : 149.6e6 * 1000,
     SCALE : 200 / (149.6e6 * 1000), // AU value    // change from 10 to 200;    
-    TIME_STEP : 2000, /// change from 24 * 60 * 60 to 2000
+    TIME_STEP : 2000, /// change from 24 * 60 * 60 to 2000 
     earthMass : 5.97 * 10 ** 24,
-    radiusScale : 1/(6378 * 2),
-    earthRadius : 6378 * (1/(6378 * 2)), // radiusScale
+    radiusScale : 1 / (6378*2),
+    earthRadius : 6378 * (1 / (6378*2)), // radiusScale
     earthVelocity : -1 * 29.8 * 1000,
 }
 
@@ -111,6 +111,11 @@ export default class Planet {
         this.mesh.position.x = this.position.x * earthConstants.SCALE
         this.mesh.position.y = this.position.y * earthConstants.SCALE
         this.mesh.position.z = this.position.z * earthConstants.SCALE
+
+        // add momunton vector
+        this.momentumVector = new THREE.ArrowHelper(this.momentum , this.mesh.position , this.radius + 10 + (this.radius/2)  , '#FF00FF');
+        this.momentumVector.visible = false;
+        this.scene.add(this.momentumVector);
     }
 
     getVelocity() {
