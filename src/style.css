@@ -109,3 +109,231 @@ body{
     overflow-y: auto !important;
     overflow-x: hidden !important;
 }
+
+
+/* information panel Style */
+
+.information-panel{
+    width: 430px;
+    height: 100vh;
+    background-color: transparent;
+    color: white;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    left: -500px;
+    top: 0;
+    z-index: 1;
+    font-family: cursive;
+    border-right: 1px solid white;
+    transition: 0.3s;
+}
+
+.information-panel .planet-name{
+    font-size: 40px;
+    padding: 100px 0 0 20px;
+    color: #2196f3;
+}
+
+.information-panel .material{
+    margin-bottom: 70px;
+    margin-left: 20px;
+}
+
+.information-panel .content{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 15px;
+    justify-content: space-between;
+}
+
+.information-panel .content div{
+    margin-bottom: 70px;
+}
+
+.information-panel .content .X{
+    width: 120px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+    position: relative;
+    font-size: 20px;
+    color: #2196f3;
+}
+
+.information-panel .content .X::before{
+    content: 'X-Axis';
+    position: absolute;
+    font-size: 12px;
+    bottom: -20px;
+    left: 0;
+    color: white;
+}
+.information-panel .content .Y{
+    width: 120px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+    position: relative;
+    font-size: 20px;
+    color: #2196f3;
+}
+
+.information-panel .content .Y::before{
+    content: 'Y-Axis';
+    position: absolute;
+    font-size: 12px;
+    bottom: -20px;
+    left: 0;
+    color: white;
+}
+.information-panel .content .Z{
+    width: 120px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+    position: relative;
+    font-size: 20px;
+    color: #2196f3;
+}
+
+.information-panel .content .Z::before{
+    content: 'Z-Axis';
+    position: absolute;
+    font-size: 12px;
+    bottom: -20px;
+    left: 0;
+    color: white;
+}
+
+/*Speed*/
+.information-panel .content .speed{
+    width: 190px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+    position: relative;
+    font-size: 20px;
+    color: #2196f3;
+}
+.information-panel .content .speed::after{
+    content: 'Km/s';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: white;
+}
+.information-panel .content .speed::before{
+    content: 'Speed';
+    position: absolute;
+    font-size: 12px;
+    bottom: -20px;
+    left: 0;
+    color: white;
+}
+
+/* Au */
+.information-panel .content .AU{
+    width: 190px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+    position: relative;
+    font-size: 20px;
+    color: #2196f3;
+}
+.information-panel .content .AU::after{
+    content: 'AU';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: white;
+}
+.information-panel .content .AU::before{
+    content: 'Distance From Sun';
+    position: absolute;
+    font-size: 12px;
+    bottom: -20px;
+    left: 0;
+    color: white;
+}
+
+/* rotationalSpeed */
+.information-panel .content .rotationalSpeed{
+    width: 190px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+    position: relative;
+    font-size: 20px;
+    color: #2196f3;
+}
+.information-panel .content .rotationalSpeed::after{
+    content: 'Km/s';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: white;
+}
+.information-panel .content .rotationalSpeed::before{
+    content: 'Rotational Speed';
+    position: absolute;
+    font-size: 12px;
+    bottom: -20px;
+    left: 0;
+    color: white;
+}
+
+/* radius */
+.information-panel .content .radius{
+    width: 190px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+    position: relative;
+    font-size: 20px;
+    color: #2196f3;
+}
+.information-panel .content .radius::after{
+    content: 'Earth Radius';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: white;
+}
+.information-panel .content .radius::before{
+    content: 'Radius';
+    position: absolute;
+    font-size: 12px;
+    bottom: -20px;
+    left: 0;
+    color: white;
+}
+
+/* Mass */
+.information-panel .content .mass{
+    width: 300px;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+    position: relative;
+    font-size: 20px;
+    color: #2196f3;
+}
+.information-panel .content .mass::after{
+    content: 'Kg';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: white;
+}
+.information-panel .content .mass::before{
+    content: 'Mass';
+    position: absolute;
+    font-size: 12px;
+    bottom: -20px;
+    left: 0;
+    color: white;
+}

@@ -9,6 +9,7 @@ import ControlPanel from './Utils/ControlPanel';
 import Particle from './World/particles';
 import StatsHelper from './Utils/StatsHelper';
 import GridHelper from './Utils/GridHelper.js'
+import InformationPanel from './Utils/InformationPanel.js'
 
 let instance = null
 
@@ -39,6 +40,7 @@ export default class Experience
         this.statsHelper = new StatsHelper();
         this.gridHelper = new GridHelper();
         this.controlPanel = new ControlPanel();
+        this.informationPanel = new InformationPanel();
         //this.resources = new Resources(sources)
         this.renderer = new Renderer();
         this.world = new World();

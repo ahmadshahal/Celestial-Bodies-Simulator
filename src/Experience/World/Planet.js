@@ -15,7 +15,7 @@ export const earthConstants = {
 }
 
 export default class Planet {
-    constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star , ring , ringTexture) {
+    constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star , ring , ringTexture , Material) {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.name = name;
@@ -28,6 +28,8 @@ export default class Planet {
         this.orbit = new PathPoint(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
         this.star = star;
         this.ring = ring;
+        this.Material = Material;
+        this.color = color;
 
         if(star) {
             this.material = new THREE.MeshBasicMaterial();
@@ -52,7 +54,7 @@ export default class Planet {
         }
 
         if(texture !== null) this.material.map = texture;
-        if(color !== null) this.material.color = new THREE.Color(color);
+        if(texture === null) this.material.color = new THREE.Color(color);
 
         this.mesh = new THREE.Mesh(
             new THREE.SphereBufferGeometry(this.radius, 32, 32),
