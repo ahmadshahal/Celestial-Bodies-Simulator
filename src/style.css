@@ -126,7 +126,7 @@ body{
     z-index: 1;
     font-family: cursive;
     border-right: 1px solid white;
-    transition: 0.3s;
+    transition: 0.5s;
 }
 
 .information-panel .planet-name{
@@ -336,4 +336,21 @@ body{
     bottom: -20px;
     left: 0;
     color: white;
+}
+
+.information-panel .exit{
+    background-color: transparent;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    right: 15px;
+    top: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.information-panel .exit::before{
+    content: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 118 111' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M118 55.4992C118 62.7824 112.673 68.6854 106.109 68.6854H45.5258L63.3857 88.4867C68.031 93.6381 68.031 101.985 63.3857 107.136C61.063 109.712 58.019 111 54.975 111C51.9309 111 48.8948 109.712 46.5722 107.141L0 55.4948L46.5523 3.86192C51.2016 -1.2895 58.7245 -1.28511 63.3699 3.86192C68.0152 9.01334 68.0152 17.3602 63.3699 22.5116L45.5139 42.3173H106.113C112.673 42.313 118 48.216 118 55.4992Z' fill='white'/%3E%3C/svg%3E%0A");
 }

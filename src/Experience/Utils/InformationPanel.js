@@ -13,6 +13,11 @@ class InformationPanel{
         const panel = document.createElement("div");
         panel.className = `information-panel ${planet.name}`;
 
+        const exit = document.createElement("div");
+        exit.className = "exit";
+        exit.onclick = this.hideAll;
+        panel.appendChild(exit);
+
         const title = document.createElement("h2");
         title.className = "planet-name";
         title.appendChild(document.createTextNode(`${planet.name}`));
@@ -71,7 +76,7 @@ class InformationPanel{
 
         const mass = document.createElement("div");
         mass.className = "mass";
-        mass.appendChild(document.createTextNode(`${planet.mass.toFixed(4)}`));
+        mass.appendChild(document.createTextNode(`${planet.mass}`));
         if(planet.color != null)    mass.style.color = `${planet.color}`
         content.appendChild(mass);
 
@@ -97,6 +102,7 @@ class InformationPanel{
         document.querySelector(`.${planet.name} .content .Z`).firstChild.nodeValue = `${planet.mesh.position.z.toFixed(4)}`;
         document.querySelector(`.${planet.name} .content .speed`).firstChild.nodeValue = `${planet.getVelocity().length().toFixed(4)}`;
         document.querySelector(`.${planet.name} .content .AU`).firstChild.nodeValue = `${(planet.mesh.position.length() / (earthConstants.AU * earthConstants.SCALE)).toFixed(4)}`;
+        document.querySelector(`.${planet.name} .content .mass`).firstChild.nodeValue = `${(planet.mass.toFixed(4))}`;
     }
 
     show(planet){
