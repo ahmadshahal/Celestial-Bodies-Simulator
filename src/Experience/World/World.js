@@ -38,10 +38,6 @@ export default class World {
         this.uranus = new Planet('Uranus' , 19.17 , 0 , 0 , 4.01 , 14.5 , 0 , 0 , 0.228 , 0.01 , '#89ebff' , textures.uranus , false , false , null, 1);
         this.neptune = new Planet('Neptune' , 30.18 , 0 , 0 , 3.88 , 17.1 , 0 , 0 , 0.182 , 0.01 , '#b7d0ff' , textures.neptune , false , false , null, 1);
         this.pluto = new Planet('Pluto' , 39.48 , 0 , 0 , 0.187 , 0.0022 , 0 , 0 , 0.157 , 0.01 , '#ff9469' , textures.pluto , false , false , null, 1);
-
-        this.experience.informationPanel.panel(this.jupiter);
-        this.experience.informationPanel.panel(this.earth);
-        this.experience.informationPanel.show(this.earth);
         
         // moons
         this.earthMoon = new Planet('Earth moon' , 1.009 , 0 , 0 , 0.2724 , 0.0123 , 0 , 0 , 0.213 , 0.01 , null , textures.moon , false , false , null);
@@ -89,7 +85,10 @@ export default class World {
             this.pluto.orbit.line,
         )
         
-        this.planets.forEach(planet => {this.experience.controlPanel.editPlanet(planet);});
+        this.planets.forEach(planet => {
+            this.experience.controlPanel.editPlanet(planet);
+            this.experience.informationPanel.panel(planet);
+        });
     }
     
     update() {
@@ -165,8 +164,10 @@ export default class World {
         planet.mesh.position.x = planet.position.x * earthConstants.SCALE;
         planet.mesh.position.y = planet.position.y * earthConstants.SCALE;
         planet.mesh.position.z = planet.position.z * earthConstants.SCALE;
-        planet.momentumVector.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
-        planet.momentumVector.setDirection(planet.momentum);
+
+        planet.speedVector.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
+        planet.speedVector.setDirection(planet.getVelocity());
+        
         if(planet.nameMesh !== undefined){
             planet.nameMesh.position.x = planet.mesh.position.x;
             planet.nameMesh.position.z = planet.mesh.position.z;

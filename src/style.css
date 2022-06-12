@@ -222,7 +222,7 @@ body{
     color: white;
 }
 .information-panel .content .speed::before{
-    content: 'Speed';
+    content: 'Average Speed';
     position: absolute;
     font-size: 12px;
     bottom: -20px;
@@ -249,7 +249,7 @@ body{
     color: white;
 }
 .information-panel .content .AU::before{
-    content: 'Distance From Sun';
+    content: 'Average Distance From Sun';
     position: absolute;
     font-size: 12px;
     bottom: -20px;

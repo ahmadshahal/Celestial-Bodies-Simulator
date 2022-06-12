@@ -6,9 +6,9 @@ class InformationPanel{
     }
     panel(planet){
         if(planet.star)                  this.planetMaterial = 'Star';
-        else if(planet.Material === 1)   this.planetMaterial = 'Ice Giant';
-        else if(planet.Material === 2)   this.planetMaterial = 'Gas Giant';
-        else                             this.planetMaterial = 'Terrestrial Planet';
+        else if(planet.planetMaterial === 1)   this.planetMaterial = 'Terrestrial Planet';
+        else if(planet.planetMaterial === 2)   this.planetMaterial = 'Gas Giant';
+        else this.planetMaterial = 'Star';
 
         const panel = document.createElement("div");
         panel.className = `information-panel ${planet.name}`;
@@ -79,11 +79,29 @@ class InformationPanel{
 
         document.body.appendChild(panel);
     }
-    show(planet){
+
+    deletePanel(planet){
+        document.querySelector(`.${planet.name}`).remove();
+    }
+
+    hideAll(){
         let planetInfo = document.querySelectorAll(".information-panel");
         for(let i = 0 ; i < planetInfo.length ; i ++){
             planetInfo[i].style.left = "-500px";
         }
+    }
+
+    update(planet){
+        document.querySelector(`.${planet.name} .content .X`).firstChild.nodeValue = `${planet.mesh.position.x.toFixed(4)}`;
+        document.querySelector(`.${planet.name} .content .Y`).firstChild.nodeValue = `${planet.mesh.position.y.toFixed(4)}`;
+        document.querySelector(`.${planet.name} .content .Z`).firstChild.nodeValue = `${planet.mesh.position.z.toFixed(4)}`;
+        document.querySelector(`.${planet.name} .content .speed`).firstChild.nodeValue = `${planet.getVelocity().length().toFixed(4)}`;
+        document.querySelector(`.${planet.name} .content .AU`).firstChild.nodeValue = `${(planet.mesh.position.length() / (earthConstants.AU * earthConstants.SCALE)).toFixed(4)}`;
+    }
+
+    show(planet){
+        this.update(planet);
+        this.hideAll();
         document.querySelector(`.${planet.name}`).style.left = "0";
     }
 }

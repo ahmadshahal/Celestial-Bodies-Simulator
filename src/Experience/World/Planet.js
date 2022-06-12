@@ -5,6 +5,7 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 
 export const earthConstants = {
+    G : 6.67428e-11,
     AU : 149.6e6 * 1000,
     SCALE : 200 / (149.6e6 * 1000), // AU value    // change from 10 to 200;    
     TIME_STEP : 2000, /// change from 24 * 60 * 60 to 2000 
@@ -15,7 +16,7 @@ export const earthConstants = {
 }
 
 export default class Planet {
-    constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star , ring , ringTexture , Material) {
+    constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star , ring , ringTexture , planetMaterial) {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.name = name;
@@ -28,7 +29,7 @@ export default class Planet {
         this.orbit = new PathPoint(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
         this.star = star;
         this.ring = ring;
-        this.Material = Material;
+        this.planetMaterial = planetMaterial;
         this.color = color;
 
         if(star) {
@@ -115,9 +116,9 @@ export default class Planet {
         this.mesh.position.z = this.position.z * earthConstants.SCALE
 
         // add momunton vector
-        this.momentumVector = new THREE.ArrowHelper(this.momentum , this.mesh.position , this.radius + 10 + (this.radius/2)  , '#FF00FF');
-        this.momentumVector.visible = false;
-        this.scene.add(this.momentumVector);
+        this.speedVector = new THREE.ArrowHelper(this.getVelocity() , this.mesh.position , this.radius + 10 + (this.radius/2)  , '#FF00FF');
+        this.speedVector.visible = false;
+        this.scene.add(this.speedVector);
     }
 
     getVelocity() {
@@ -130,13 +131,11 @@ export default class Planet {
     }
 
     gravitationalForce(planet) {
-        const G = 6.67428e-11
-        // const G = 1
         const posVec = planet.position 
         const r_vec = posVec.clone().sub(this.position)
         const r_mag = r_vec.length()
         const r_hat = r_vec.divideScalar(r_mag)
-        const force = r_hat.multiplyScalar(-1 * G * this.mass * planet.mass / (r_mag * r_mag))
+        const force = r_hat.multiplyScalar(-1 * earthConstants.G * this.mass * planet.mass / (r_mag * r_mag))
         return force
     }
 

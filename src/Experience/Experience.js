@@ -39,8 +39,8 @@ export default class Experience
         this.axes = new Axes();
         this.statsHelper = new StatsHelper();
         this.gridHelper = new GridHelper();
-        this.controlPanel = new ControlPanel();
         this.informationPanel = new InformationPanel();
+        this.controlPanel = new ControlPanel();
         //this.resources = new Resources(sources)
         this.renderer = new Renderer();
         this.world = new World();

@@ -16,6 +16,7 @@ class ControlPanel{
             mass: 1, 
             xV: 0, yV: 0, zV: 1,
             rotationSpeed : 0,
+            planetMaterial: 1,
             star : false
         };
 
@@ -118,6 +119,15 @@ class ControlPanel{
                 object: this.tempPlanet , property: 'rotationSpeed'
             },  
             {
+                type: 'select' , label: 'Planet Material' , folder: 'Add Planet',
+                options: ['Terrestrial Planet' , 'Gas Giant' , 'Star'],
+                onChange: (value) => {
+                    if(value === 'Terrestrial Planet') this.tempPlanet.planetMaterial = 1;
+                    else if(value === 'Gas Giant') this.tempPlanet.planetMaterial = 2;
+                    else this.tempPlanet.planetMaterial = 0;
+                }
+            },
+            {
                 type: 'checkbox' , label: 'star' , folder: 'Add Planet',
                 object: this.tempPlanet , property: 'star',
             },
@@ -140,7 +150,7 @@ class ControlPanel{
                     const newPlanet = new Planet(this.tempPlanet.name , this.tempPlanet.x , this.tempPlanet.y, this.tempPlanet.z,
                                                 this.tempPlanet.radius , this.tempPlanet.mass , this.tempPlanet.xV ,
                                                 this.tempPlanet.yV , this.tempPlanet.zV , this.tempPlanet.rotationSpeed,
-                                                this.tempPlanet.color , null , this.tempPlanet.star , false , null);
+                                                this.tempPlanet.color , null , this.tempPlanet.star , false , null , this.tempPlanet.material);
                     planets.forEach(e => {
                         if(newPlanet.areCollided(e)){
                             this.gui.Toast('Planet can not be added in this coordinates');
@@ -150,6 +160,7 @@ class ControlPanel{
                     if(f === false) return;
                     planets.push(newPlanet);
                     this.scene.add(newPlanet.mesh , newPlanet.orbit.line);
+                    this.experience.informationPanel.panel(newPlanet);
                     this.editPlanet(newPlanet);
                     this.deletePlanet(newPlanet);
                 }
@@ -178,8 +189,8 @@ class ControlPanel{
                 object: planet.orbit.line , property: 'visible',
             },
             {
-                type: 'checkbox' , label: 'Momentum Vector' , folder: planet.name,
-                object: planet.momentumVector , property: 'visible',
+                type: 'checkbox' , label: 'speed Vector' , folder: planet.name,
+                object: planet.speedVector , property: 'visible',
             },
             {
                 type: 'color' , label: 'Color' , folder: planet.name,
@@ -214,6 +225,7 @@ class ControlPanel{
                 action: () => {
                     this.experience.camera.instance.position.set(planet.mesh.position.x , planet.mesh.position.y+20+planet.radius , planet.mesh.position.z+20+planet.radius);
                     this.experience.camera.instance.lookAt(planet.mesh.position);
+                    this.experience.informationPanel.show(planet);
                 }
             },
             {
@@ -222,6 +234,7 @@ class ControlPanel{
                     const planets = this.experience.world.planets;
                     const index = planets.indexOf(planet);
                     planets.splice(index , 1);
+                    this.experience.informationPanel.deletePanel(planet);
                     planet.mesh.removeFromParent();
                     planet.orbit.line.removeFromParent();
                     planet.nameMesh.removeFromParent();
@@ -238,6 +251,7 @@ class ControlPanel{
     }
 
     editConstants(){
+        const G = earthConstants.G;
         const AU = earthConstants.AU;
         const SCALE = earthConstants.SCALE;
         const radiusScale = earthConstants.radiusScale;
@@ -245,8 +259,13 @@ class ControlPanel{
         const earthMass = earthConstants.earthMass;
         const earthRadius = earthConstants.earthRadius;
         const earthVelocity = earthConstants.earthVelocity;
-        console.log(earthVelocity); 
         this.gui.Register([
+            {
+                type: 'range' , label: 'G' , folder: 'Constants',
+                min : 0 , max : 1 , setp: 0.0001 , scale: 'linear',
+                object: earthConstants , property: 'G',
+                onChange: () => console.log(earthConstants.G),
+            },
             {
                 type: 'range' , label: 'AU' , folder: 'Constants',
                 min: 0 , max: AU * 10 , step: 1000 , scale: 'linear',
@@ -285,6 +304,7 @@ class ControlPanel{
             {
                 type: 'button' , label: 'Reset All' , folder: 'Constants',
                 action: () => {
+                    earthConstants.G = G;
                     earthConstants.AU = AU;
                     earthConstants.SCALE = SCALE;
                     earthConstants.TIME_STEP = TIME_STEP;
