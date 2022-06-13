@@ -16,15 +16,14 @@ class ControlPanel{
             mass: 1, 
             xV: 0, yV: 0, zV: 1,
             rotationSpeed : 0,
-            planetMaterial: 1,
-            star : false
+            type: 1,
         };
 
         // initial the panel
         this.initialization();
 
         // fill the add folder
-        this.addPlanet();
+        this.addBody();
 
         // fill the time step folder
         this.editConstants();
@@ -51,98 +50,99 @@ class ControlPanel{
 
         // create the main folders
         this.gui.Register([
-            {type: 'folder' , label: 'Planets'},
-            {type: 'folder' , label: 'Add Planet'},
+            {type: 'folder' , label: 'All Bodies'},
+            {type: 'folder' , label: 'Add Body'},
             {type: 'folder' , label: 'Constants'},
             {type: 'folder' , label: 'Helpers'},
             {type: 'folder' , label: 'Controllers'}
         ]);
     }
 
-    addPlanet(){
+    addBody(){
         this.gui.Register([
             {
-                type: 'text' , label: 'Warning' , folder: 'Add Planet',
+                type: 'text' , label: 'Warning' , folder: 'Add Body',
                 initial: 'All value on earth scale!!!' , enabled: false,
             },
             {
-                type: 'text' , label: 'Planet name:' , folder: 'Add Planet',
+                type: 'text' , label: 'Name:' , folder: 'Add Body',
                 object: this.tempPlanet , property: 'name',
             },
             {
-                type: 'range' , label: 'X axis:' , folder: 'Add Planet',
+                type: 'range' , label: 'X axis:' , folder: 'Add Body',
                 min: -100 , max: 100 , step: 0.001, scale: 'linear',
                 object: this.tempPlanet , property : 'x',
             },
             {
-                type: 'range' , label: 'Y axis:' , folder: 'Add Planet',
+                type: 'range' , label: 'Y axis:' , folder: 'Add Body',
                 min: -100 , max: 100 , step: 0.001, scale: 'linear',
                 object: this.tempPlanet , property : 'y',
             },
             {
-                type: 'range' , label: 'Z axis:' , folder: 'Add Planet',
+                type: 'range' , label: 'Z axis:' , folder: 'Add Body',
                 min: -100 , max: 100 , step: 0.001, scale: 'linear',
                 object: this.tempPlanet , property : 'z',
             },
             {
-                type: 'range' , label: 'Radius' , folder: 'Add Planet',
+                type: 'range' , label: 'Radius' , folder: 'Add Body',
                 min: 0.001 , max: 10 , step: 0.01, scale: 'linear',
                 object: this.tempPlanet , property : 'radius',
             },
             {
-                type: 'color' , label: 'Color' , folder: 'Add Planet',
+                type: 'color' , label: 'Color' , folder: 'Add Body',
                 format: 'hex' , object: this.tempPlanet , property: 'color',
             },
             {
-                type: 'range' , label: 'Mass' , folder: 'Add Planet',
+                type: 'range' , label: 'Mass' , folder: 'Add Body',
                 object: this.tempPlanet , property: 'mass',
                 min: 0.00001 , max: 1e7 , step: 0.00001 , scale: 'linear',
             },
             {
-                type: 'range' , label: 'X velocity' , folder: 'Add Planet',
+                type: 'range' , label: 'X velocity' , folder: 'Add Body',
                 min: -1e7 , max: 1e7 , step: 0.1, scale: 'linear',
                 object: this.tempPlanet , property : 'xV',
             },
             {
-                type: 'range' , label: 'Y velocity' , folder: 'Add Planet',
+                type: 'range' , label: 'Y velocity' , folder: 'Add Body',
                 min: -1e7 , max: 1e7 , step: 0.1, scale: 'linear',
                 object: this.tempPlanet , property : 'yV',
             },
             {
-                type: 'range' , label: 'Z velocity' , folder: 'Add Planet',
+                type: 'range' , label: 'Z velocity' , folder: 'Add Body',
                 min: -1e7 , max: 1e7 , step: 0.1, scale: 'linear',
                 object: this.tempPlanet , property : 'zV',
             },
             {
-                type: 'range' , label: 'Rotation speed' , folder: 'Add Planet',
+                type: 'range' , label: 'Rotation speed' , folder: 'Add Body',
                 min: 0 , max: 1 , step: 0.001 , scale: 'linear',
                 object: this.tempPlanet , property: 'rotationSpeed'
             },  
             {
-                type: 'select' , label: 'Planet Material' , folder: 'Add Planet',
-                options: ['Terrestrial Planet' , 'Gas Giant' , 'Star'],
+                type: 'select' , label: 'type' , folder: 'Add Body',
+                options: ['Terrestrial Planet' , 'Gas Planet' , 'Star' , 'Asteroid'],
                 onChange: (value) => {
-                    if(value === 'Terrestrial Planet') this.tempPlanet.planetMaterial = 1;
-                    else if(value === 'Gas Giant') this.tempPlanet.planetMaterial = 2;
-                    else this.tempPlanet.planetMaterial = 0;
+                    if(value === 'Star') this.tempPlanet.type = 0;
+                    else if(value === 'Terrestrial Planet') this.tempPlanet.type = 1;
+                    else if(value === 'Gas Planet') this.tempPlanet.type = 2;
+                    else this.tempPlanet.type = 3;
                 }
             },
             {
-                type: 'checkbox' , label: 'star' , folder: 'Add Planet',
-                object: this.tempPlanet , property: 'star',
-            },
-            {
-                type: 'button' , label: 'Add Planet' , folder: 'Add Planet',
+                type: 'button' , label: 'Add Body' , folder: 'Add Body',
                 action: (value) => {
                     const planets = this.experience.world.planets;
                     let f = true;
                     if(this.tempPlanet.name === ''){
-                        this.gui.Toast('Please insert name for the planet');
+                        this.gui.Toast('Please insert name for the body');
+                        return;
+                    }
+                    if(this.tempPlanet.name.includes(' ')){
+                        this.gui.Toast('Planet insert name without space');
                         return;
                     }
                     planets.forEach(e => {
                         if(e.name.toLowerCase() === this.tempPlanet.name.toLowerCase()){
-                            this.gui.Toast('Planet name is already exist');
+                            this.gui.Toast('Body name is already exist');
                             f = false;
                         }
                     });
@@ -150,17 +150,17 @@ class ControlPanel{
                     const newPlanet = new Planet(this.tempPlanet.name , this.tempPlanet.x , this.tempPlanet.y, this.tempPlanet.z,
                                                 this.tempPlanet.radius , this.tempPlanet.mass , this.tempPlanet.xV ,
                                                 this.tempPlanet.yV , this.tempPlanet.zV , this.tempPlanet.rotationSpeed,
-                                                this.tempPlanet.color , null , this.tempPlanet.star , false , null , this.tempPlanet.material);
+                                                this.tempPlanet.color , null , this.tempPlanet.type , false , null);
                     planets.forEach(e => {
                         if(newPlanet.areCollided(e)){
-                            this.gui.Toast('Planet can not be added in this coordinates');
+                            this.gui.Toast('Body can not be added in this coordinates');
                             f = false;
                         }
                     }); 
                     if(f === false){
                         setTimeout(() => {
                             newPlanet.nameMesh.removeFromParent();
-                            if(newPlanet.star) newPlanet.starLight.removeFromParent();
+                            if(newPlanet.type === 0) newPlanet.starLight.removeFromParent();
                             if(newPlanet.ring) newPlanet.planetRings.removeFromParent();
                         } , 500);
                         return;
@@ -181,7 +181,7 @@ class ControlPanel{
 
     editPlanet(planet) {
         this.gui.Register([
-            {type: 'folder' , label: planet.name , folder: 'Planets'},
+            {type: 'folder' , label: planet.name , folder: 'All Bodies'},
             {
                 type: 'checkbox' , label: 'Visible' , folder: planet.name,
                 object: planet.mesh , property: 'visible',
@@ -209,7 +209,7 @@ class ControlPanel{
                 object: planet , property: 'mass'
             },
         ]);
-        if(planet.star){
+        if(planet.type === 0){
             this.gui.Register([
                 {
                     type: 'checkbox' , label: 'Star light' , folder: planet.name,
@@ -365,7 +365,7 @@ class ControlPanel{
         planet.mesh.removeFromParent();
         planet.orbit.line.removeFromParent();
         planet.nameMesh.removeFromParent();
-        if(planet.star) planet.starLight.removeFromParent();
+        if(planet.type === 0) planet.starLight.removeFromParent();
         if(planet.ring) planet.planetRings.removeFromParent();
         this.gui.loadedComponents.forEach(e => {
             if(e.opts.label === `Delete ${planet.name}` || e.opts.label === planet.name){   

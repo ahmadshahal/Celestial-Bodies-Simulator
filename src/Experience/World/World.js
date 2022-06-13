@@ -26,21 +26,21 @@ export default class World {
         // this.asteroid = new Asteroid('ast', 0.5 , 0.5 , 0 , 1 , 1 , 1 , 1 , 1 , null , textures.asteroid , textures.asteroidAlpha , textures.asteroidHight , textures.asteroidNormal , textures.asteroidRoughness);
         
         // sun
-        this.sun = new Planet('Sun' , 0 , 0 , 0 , 109 , 333152.42 , 0 , 0 , 0 , 0.01 , '#ff9800' , textures.sun , true , false , null , 0);
+        this.sun = new Planet('Sun' , 0 , 0 , 0 , 109 , 333152.42 , 0 , 0 , 0 , 0.01 , '#ff9800' , textures.sun , 0 , false , null);
 
         // planet
-        this.mercury = new Planet('Mercury' , 0.387 , 0 , 0 , 0.383 , 0.0553 , 0 , 0 , 1.59 , 0.01 , '#7973dc' , textures.mercury , false , false , null , 0);
-        this.venus = new Planet('Venus' , 0.723 , 0 , 0 , 0.949 , 0.815 , 0 , 0 , 1.18 , 0.01 , '#d67a19' , textures.venus , false , false , null, 0);
-        this.earth = new Planet('Earth' , 1 , 0 , 0 , 1 , 1 , 0 , 0 , 1 , 0.01 , '#5592c6' , textures.earth , false , false , null, 0);
-        this.mars = new Planet('Mars' , 1.52 , 0 , 0 , 0.532  , 0.107 , 0 , 0 , 0.808 , 0.01 , '#3adede' , textures.mars , false , false , null, 0);
-        this.jupiter = new Planet('Jupiter' , 5.20 , 0 , 0 , 11.21 , 317.8 , 0 , 0 , 0.439 , 0.01 , '#e96a76' , textures.jupiter , false , false , null, 2);
-        this.saturn = new Planet('Saturn' , 9.57 , 0 , 0 , 9.45 , 95.2 , 0 , 0 , 0.325 , 0.01 , '#eba357' , textures.saturn , false , true , textures.saturnRing, 2);
-        this.uranus = new Planet('Uranus' , 19.17 , 0 , 0 , 4.01 , 14.5 , 0 , 0 , 0.228 , 0.01 , '#89ebff' , textures.uranus , false , false , null, 1);
-        this.neptune = new Planet('Neptune' , 30.18 , 0 , 0 , 3.88 , 17.1 , 0 , 0 , 0.182 , 0.01 , '#b7d0ff' , textures.neptune , false , false , null, 1);
-        this.pluto = new Planet('Pluto' , 39.48 , 0 , 0 , 0.187 , 0.0022 , 0 , 0 , 0.157 , 0.01 , '#ff9469' , textures.pluto , false , false , null, 1);
+        this.mercury = new Planet('Mercury' , 0.387 , 0 , 0 , 0.383 , 0.0553 , 0 , 0 , 1.59 , 0.01 , '#7973dc' , textures.mercury , 1 , false , null);
+        this.venus = new Planet('Venus' , 0.723 , 0 , 0 , 0.949 , 0.815 , 0 , 0 , 1.18 , 0.01 , '#d67a19' , textures.venus , 1 , false , null);
+        this.mars = new Planet('Mars' , 1.52 , 0 , 0 , 0.532  , 0.107 , 0 , 0 , 0.808 , 0.01 , '#3adede' , textures.mars , 1 , false , null);
+        this.earth = new Planet('Earth' , 1 , 0 , 0 , 1 , 1 , 0 , 0 , 1 , 0.01 , '#5592c6' , textures.earth , 1 , false , null);
+        this.jupiter = new Planet('Jupiter' , 5.20 , 0 , 0 , 11.21 , 317.8 , 0 , 0 , 0.439 , 0.01 , '#e96a76' , textures.jupiter , 2 , false , null);
+        this.saturn = new Planet('Saturn' , 9.57 , 0 , 0 , 9.45 , 95.2 , 0 , 0 , 0.325 , 0.01 , '#eba357' , textures.saturn , 2 , true , textures.saturnRing);
+        this.uranus = new Planet('Uranus' , 19.17 , 0 , 0 , 4.01 , 14.5 , 0 , 0 , 0.228 , 0.01 , '#89ebff' , textures.uranus , 2 , false , null);
+        this.neptune = new Planet('Neptune' , 30.18 , 0 , 0 , 3.88 , 17.1 , 0 , 0 , 0.182 , 0.01 , '#b7d0ff' , textures.neptune , 2 , false , null);
+        this.pluto = new Planet('Pluto' , 39.48 , 0 , 0 , 0.187 , 0.0022 , 0 , 0 , 0.157 , 0.01 , '#ff9469' , textures.pluto , 1 , false , null);
         
         // moons
-        this.earthMoon = new Planet('Earth moon' , 1.009 , 0 , 0 , 0.2724 , 0.0123 , 0 , 0 , 0.213 , 0.01 , null , textures.moon , false , false , null);
+        this.earthMoon = new Planet('Earth moon' , 1.009 , 0 , 0 , 0.2724 , 0.0123 , 0 , 0 , 0.213 , 0.01 , null , textures.moon , 1 , false , null);
 
         this.planets = [
             this.sun,
@@ -143,12 +143,19 @@ export default class World {
                     tempPlanet.momentum = newTempPlanetVelocity.multiplyScalar(tempPlanet.mass)
                     planet.momentum = newPlanetVelocity.multiplyScalar(planet.mass)
                     
-                    if(tempPlanet.star || planet.star){
-                        if(tempPlanet.star) this.experience.controlPanel.deletePlanet(planet);
-                        if(planet.star) this.experience.controlPanel.deletePlanet(tempPlanet);
+                    if(tempPlanet.type === 0 || planet.type === 0){
+                        if(tempPlanet.type === 0) this.experience.controlPanel.deletePlanet(planet);
+                        if(planet.type === 0) this.experience.controlPanel.deletePlanet(tempPlanet);
                     }
                     else{
-
+                        if(planet.type === 2){
+                            this.experience.controlPanel.deletePlanet(planet);
+                            
+                        }
+                        if(tempPlanet.type === 2){
+                            this.experience.controlPanel.deletePlanet(tempPlanet);
+                            
+                        }
                     }
                 }
                 // const speed = planet.momentum.clone().divideScalar(planet.mass)
@@ -181,7 +188,7 @@ export default class World {
             planet.nameMesh.position.z = planet.mesh.position.z;
             planet.nameMesh.lookAt(this.experience.camera.instance.position);
         }
-        if(planet.star)
+        if(planet.type === 0)
             planet.starLight.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
         if(planet.ring)
             planet.planetRings.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);

@@ -116,7 +116,7 @@ body{
 .information-panel{
     width: 430px;
     height: 100vh;
-    background-color: transparent;
+    background-color: #000000bf;
     color: white;
     padding: 0;
     margin: 0;

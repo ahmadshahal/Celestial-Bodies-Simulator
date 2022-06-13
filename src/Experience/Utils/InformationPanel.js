@@ -5,10 +5,10 @@ class InformationPanel{
         this.planetMaterial = '';
     }
     panel(planet){
-        if(planet.star)                  this.planetMaterial = 'Star';
-        else if(planet.planetMaterial === 1)   this.planetMaterial = 'Terrestrial Planet';
-        else if(planet.planetMaterial === 2)   this.planetMaterial = 'Gas Giant';
-        else this.planetMaterial = 'Star';
+        if(planet.type === 0)        this.planetMaterial = 'Star';
+        else if(planet.type === 1)   this.planetMaterial = 'Terrestrial Planet';
+        else if(planet.type === 2)   this.planetMaterial = 'Gas Planet';
+        else                         this.planetMaterial = 'Asteroid';
 
         const panel = document.createElement("div");
         panel.className = `information-panel ${planet.name}`;

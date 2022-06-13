@@ -16,7 +16,7 @@ export const earthConstants = {
 }
 
 export default class Planet {
-    constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , star , ring , ringTexture , planetMaterial) {
+    constructor(name, x, y, z, radius, mass, xV, yV, zV, rotationalSpeed, color,texture , type , ring , ringTexture) {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.name = name;
@@ -27,12 +27,11 @@ export default class Planet {
         this.momentum = new THREE.Vector3(xV * this.mass, yV * this.mass, zV * this.mass * earthConstants.earthVelocity);
         this.rotationalSpeed = rotationalSpeed
         this.orbit = new PathPoint(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
-        this.star = star;
         this.ring = ring;
-        this.planetMaterial = planetMaterial;
+        this.type = type;
         this.color = color;
 
-        if(star) {
+        if(type === 0) {
             this.material = new THREE.MeshBasicMaterial();
             this.starLight = new THREE.PointLight(0xffffff , 1 , 11000);
             this.starLight.position.set(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
@@ -57,13 +56,12 @@ export default class Planet {
         if(texture !== null) this.material.map = texture;
         if(texture === null) this.material.color = new THREE.Color(color);
 
-        this.mesh = new THREE.Mesh(
-            new THREE.SphereBufferGeometry(this.radius, 32, 32),
-            this.material
-        )
+        this.geometry = (type == 3 ? new THREE.DodecahedronBufferGeometry(this.radius) : new THREE.SphereBufferGeometry(this.radius, 32, 32));
+
+        this.mesh = new THREE.Mesh(this.geometry , this.material);
 
         // Shadow 
-        if(!star){
+        if(type !== 0){
             this.mesh.castShadow = true;
             this.mesh.receiveShadow = true;
         }
@@ -110,15 +108,15 @@ export default class Planet {
                 this.scene.add(this.nameMesh)
             }
         );
-
-        this.mesh.position.x = this.position.x * earthConstants.SCALE
-        this.mesh.position.y = this.position.y * earthConstants.SCALE
-        this.mesh.position.z = this.position.z * earthConstants.SCALE
-
+        
         // add momunton vector
         this.speedVector = new THREE.ArrowHelper(this.getVelocity() , this.mesh.position , this.radius + 10 + (this.radius/2)  , '#FF00FF');
         this.speedVector.visible = false;
         this.scene.add(this.speedVector);
+
+        this.mesh.position.x = this.position.x * earthConstants.SCALE
+        this.mesh.position.y = this.position.y * earthConstants.SCALE
+        this.mesh.position.z = this.position.z * earthConstants.SCALE
     }
 
     getVelocity() {
