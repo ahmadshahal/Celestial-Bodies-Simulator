@@ -15,9 +15,10 @@ export default class Camera
         this.sizes = this.experience.sizes
         this.scene = this.experience.scene
         this.canvas = this.experience.canvas
+        this.currentControls = 'Fly Controls';
 
         this.setInstance()
-        this.setControls('Fly Controls');
+        this.setControls(this.currentControls);
     }
 
     setInstance()
@@ -30,6 +31,8 @@ export default class Camera
 
     setControls(cur)
     {
+        this.currentControls = cur;
+        
         // orbit control
         if(cur === 'Orbit Controls'){
             this.controls.dispose();
@@ -48,6 +51,7 @@ export default class Camera
             this.controls.dragToLook = true;
         }
 
+        // first person control
         else if(cur === 'First Person Controls'){
             this.controls.dispose();
             this.controls = new FirstPersonControls(this.instance , this.canvas);

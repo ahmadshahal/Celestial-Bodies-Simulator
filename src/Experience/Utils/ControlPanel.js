@@ -157,12 +157,18 @@ class ControlPanel{
                             f = false;
                         }
                     }); 
-                    if(f === false) return;
+                    if(f === false){
+                        setTimeout(() => {
+                            newPlanet.nameMesh.removeFromParent();
+                            if(newPlanet.star) newPlanet.starLight.removeFromParent();
+                            if(newPlanet.ring) newPlanet.planetRings.removeFromParent();
+                        } , 500);
+                        return;
+                    }
                     planets.push(newPlanet);
                     this.scene.add(newPlanet.mesh , newPlanet.orbit.line);
                     this.experience.informationPanel.panel(newPlanet);
                     this.editPlanet(newPlanet);
-                    this.deletePlanet(newPlanet);
                 }
             }
         ]);
@@ -225,27 +231,18 @@ class ControlPanel{
                 action: () => {
                     this.experience.camera.instance.position.set(planet.mesh.position.x , planet.mesh.position.y+20+planet.radius , planet.mesh.position.z+20+planet.radius);
                     this.experience.camera.instance.lookAt(planet.mesh.position);
+                    if(this.experience.camera.currentControls === 'First Person Controls'){
+                        this.experience.camera.controls.lookAt(planet.mesh.position);
+                    }
+                    else if(this.experience.camera.currentControls === 'Orbit Controls'){
+                        this.experience.camera.controls.target = planet.mesh.position;
+                    }
                     this.experience.informationPanel.show(planet);
                 }
             },
             {
                 type: 'button' , label: `Delete ${planet.name}` , folder: planet.name,
-                action: () => {
-                    const planets = this.experience.world.planets;
-                    const index = planets.indexOf(planet);
-                    planets.splice(index , 1);
-                    this.experience.informationPanel.deletePanel(planet);
-                    planet.mesh.removeFromParent();
-                    planet.orbit.line.removeFromParent();
-                    planet.nameMesh.removeFromParent();
-                    if(planet.star) planet.starLight.removeFromParent();
-                    if(planet.ring) planet.planetRings.removeFromParent();
-                    this.gui.loadedComponents.forEach(e => {
-                        if(e.opts.label === `Delete ${planet.name}` || e.opts.label === planet.name){   
-                            this.gui.Remove(e);
-                        }
-                    });
-                } 
+                action: () => this.deletePlanet(planet),
             }
         ]);
     }
@@ -358,6 +355,23 @@ class ControlPanel{
                 onChange: (value) => this.experience.camera.setControls(value)
             }
         ]);
+    }
+
+    deletePlanet(planet){
+        const planets = this.experience.world.planets;
+        const index = planets.indexOf(planet);
+        planets.splice(index , 1);
+        this.experience.informationPanel.deletePanel(planet);
+        planet.mesh.removeFromParent();
+        planet.orbit.line.removeFromParent();
+        planet.nameMesh.removeFromParent();
+        if(planet.star) planet.starLight.removeFromParent();
+        if(planet.ring) planet.planetRings.removeFromParent();
+        this.gui.loadedComponents.forEach(e => {
+            if(e.opts.label === `Delete ${planet.name}` || e.opts.label === planet.name){   
+                this.gui.Remove(e);
+            }
+        });
     }
 
     resetWorld(){

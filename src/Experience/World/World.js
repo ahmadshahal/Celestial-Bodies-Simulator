@@ -142,6 +142,14 @@ export default class World {
 
                     tempPlanet.momentum = newTempPlanetVelocity.multiplyScalar(tempPlanet.mass)
                     planet.momentum = newPlanetVelocity.multiplyScalar(planet.mass)
+                    
+                    if(tempPlanet.star || planet.star){
+                        if(tempPlanet.star) this.experience.controlPanel.deletePlanet(planet);
+                        if(planet.star) this.experience.controlPanel.deletePlanet(tempPlanet);
+                    }
+                    else{
+
+                    }
                 }
                 // const speed = planet.momentum.clone().divideScalar(planet.mass)
                 // planet.position = planet.position.clone().add(speed.clone().multiplyScalar(this.TIME_STEP))
