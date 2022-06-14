@@ -62,7 +62,7 @@ class ControlPanel{
         this.gui.Register([
             {
                 type: 'text' , label: 'Warning' , folder: 'Add Body',
-                initial: 'All value on earth scale!!!' , enabled: false,
+                initial: '! All values on earth scale !' , enabled: false,
             },
             {
                 type: 'text' , label: 'Name:' , folder: 'Add Body',
@@ -142,7 +142,7 @@ class ControlPanel{
                     }
                     planets.forEach(e => {
                         if(e.name.toLowerCase() === this.tempPlanet.name.toLowerCase()){
-                            this.gui.Toast('Body name is already exist');
+                            this.gui.Toast('Body name already exists');
                             f = false;
                         }
                     });
@@ -229,7 +229,8 @@ class ControlPanel{
             {
                 type: 'button' , label: `Go to ${planet.name}` , folder: planet.name,
                 action: () => {
-                    this.experience.camera.instance.position.set(planet.mesh.position.x , planet.mesh.position.y+20+planet.radius , planet.mesh.position.z+20+planet.radius);
+                    const constant = (2 * planet.radius / earthConstants.earthRadius) 
+                    this.experience.camera.instance.position.set(planet.mesh.position.x , planet.mesh.position.y+planet.radius + constant , planet.mesh.position.z+planet.radius + constant );
                     this.experience.camera.instance.lookAt(planet.mesh.position);
                     if(this.experience.camera.currentControls === 'First Person Controls'){
                         this.experience.camera.controls.lookAt(planet.mesh.position);
