@@ -352,7 +352,7 @@ class ControlPanel{
         this.gui.Register([
             {
                 type: 'select' , label: 'controls' , folder: 'Controllers',
-                options: ['Fly Controls' , 'Orbit Controls' , 'First Person Controls'],
+                options: ['Orbit Controls' , 'Fly Controls' ,  'First Person Controls'],
                 onChange: (value) => this.experience.camera.setControls(value)
             }
         ]);
