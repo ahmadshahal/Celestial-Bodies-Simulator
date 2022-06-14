@@ -8,7 +8,7 @@ export const earthConstants = {
     G : 6.67428e-11,
     AU : 149.6e6 * 1000,
     SCALE : 200 / (149.6e6 * 1000), // AU value    // change from 10 to 200;    
-    TIME_STEP : 2000, /// change from 24 * 60 * 60 to 2000 
+    TIME_STEP : 60 * 60, /// change from 24 * 60 * 60 to 2000 
     earthMass : 5.97 * 10 ** 24,
     radiusScale : 1 / (6378*2),
     earthRadius : 6378 * (1 / (6378*2)), // radiusScale
@@ -124,7 +124,7 @@ export default class Planet {
     }
 
     rotate(){
-        this.mesh.rotation.y += this.rotationalSpeed;
+        this.mesh.rotation.y += (this.rotationalSpeed * (earthConstants.TIME_STEP / 3600)) ;
         if(this.ring) this.planetRings.rotation.z+= 0.001;
     }
 
