@@ -17,7 +17,7 @@ export default class World {
         instance = this
         this.experience = new Experience()
         this.scene = this.experience.scene
-        this.scene.background = new THREE.Color('#090909');
+        this.scene.background = new THREE.Color('#0d0120');
         
         // Scene Light
         this.sceneLight = new THREE.AmbientLight(0xb9b5ff, 0.12)
