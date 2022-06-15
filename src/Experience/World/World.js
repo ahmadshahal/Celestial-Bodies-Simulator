@@ -158,17 +158,6 @@ export default class World {
                         }
                     }
                 }
-                // const speed = planet.momentum.clone().divideScalar(planet.mass)
-                // planet.position = planet.position.clone().add(speed.clone().multiplyScalar(this.TIME_STEP))
-                // planet.mesh.position.x = planet.position.x * this.SCALE
-                // planet.mesh.position.y = planet.position.y * this.SCALE
-                // planet.mesh.position.z = planet.position.z * this.SCALE
-
-                // const tempPlanetSpeed = tempPlanet.momentum.clone().divideScalar(tempPlanet.mass)
-                // tempPlanet.position = tempPlanet.position.clone().add(tempPlanetSpeed.clone().multiplyScalar(this.TIME_STEP))
-                // tempPlanet.mesh.position.x = tempPlanet.position.x * this.SCALE
-                // tempPlanet.mesh.position.y = tempPlanet.position.y * this.SCALE
-                // tempPlanet.mesh.position.z = tempPlanet.position.z * this.SCALE
             }
         })
     }
