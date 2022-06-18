@@ -16,7 +16,7 @@ class ControlPanel{
             color: '#FFFFFF',
             mass: 1, 
             xV: 0, yV: 0, zV: 1,
-            rotationSpeed : 0,
+            rotationSpeed : 0.1,
             type: 1,
         };
 

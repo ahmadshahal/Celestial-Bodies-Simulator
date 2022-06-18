@@ -48,6 +48,8 @@ export default class World {
             this.neptune,
             this.pluto
         ]
+        
+        this.deleteList = [];
 
         this.scene.add(
             this.sceneLight,
@@ -89,6 +91,10 @@ export default class World {
             this.positionUpdate(planet)
             planet.rotate()
         })
+        this.deleteList.forEach((planet) => {
+            this.experience.controlPanel.deletePlanet(planet);
+        })
+        this.deleteList = []
     }
 
     gravitationalForceUpdate(planet) {
@@ -106,14 +112,14 @@ export default class World {
         this.planets.forEach((tempPlanet) => {
             if (planet != tempPlanet) {
                 if (planet.areCollided(tempPlanet)) {
+
+                    
                     const n = planet.position.clone().sub(tempPlanet.position.clone())
                     const un = n.clone().divideScalar(n.length())
                     let ut = new THREE.Vector3(-un.y, un.x, un.z)
 
-                    // !: Start of Danger Zone
                     const temp = un.clone().cross(ut);
                     ut = temp.clone();
-                    // !: End of Danger Zone
 
                     const tempPlanetVN = un.clone().dot(tempPlanet.getVelocity().clone())
                     const tempPlanetVT = ut.clone().dot(tempPlanet.getVelocity().clone())
@@ -130,9 +136,15 @@ export default class World {
 
                     const newTempPlanetVelocity = finalTempPlanetVN.add(finalTempPlanetVT.clone())
                     const newPlanetVelocity = finalPlanetVN.add(finalPlanetVT.clone())
-
+                    
                     tempPlanet.momentum = newTempPlanetVelocity.multiplyScalar(tempPlanet.mass)
                     planet.momentum = newPlanetVelocity.multiplyScalar(planet.mass)
+                    
+                    if(tempPlanet.type === 0 || planet.type === 0){
+                        if(tempPlanet.type === 0)     this.deleteList.push(planet);
+                        if(planet.type === 0)         this.deleteList.push(tempPlanet);
+                    }
+
                 }
             }
         })
@@ -148,6 +160,7 @@ export default class World {
         planet.speedVector.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
         planet.speedVector.setDirection(planet.getVelocity());
         
+
         if(planet.nameMesh !== undefined  &&  planet.nameMesh  != null){
             planet.nameMesh.position.x = planet.mesh.position.x;
             planet.nameMesh.position.z = planet.mesh.position.z;

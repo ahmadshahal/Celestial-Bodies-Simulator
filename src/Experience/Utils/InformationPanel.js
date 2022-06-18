@@ -86,6 +86,7 @@ class InformationPanel{
     }
 
     deletePanel(planet){
+        if(document.querySelector(`.${planet.name}`) != null)
         document.querySelector(`.${planet.name}`).remove();
     }
 
