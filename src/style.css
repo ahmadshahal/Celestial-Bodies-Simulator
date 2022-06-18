@@ -266,7 +266,7 @@ body{
     font-size: 20px;
     color: #2196f3;
 }
-.information-panel .content .rotationalSpeed::after{
+/* .information-panel .content .rotationalSpeed::after{
     content: 'Km/s';
     position: absolute;
     right: 0;
@@ -274,7 +274,7 @@ body{
     transform: translateY(-50%);
     font-size: 13px;
     color: white;
-}
+} */
 .information-panel .content .rotationalSpeed::before{
     content: 'Rotational Speed';
     position: absolute;

@@ -85,7 +85,7 @@ class ControlPanel{
             },
             {
                 type: 'range' , label: 'Radius' , folder: 'Add Body',
-                min: 0.001 , max: 10 , step: 0.01, scale: 'linear',
+                min: 0.001 , max: 500 , step: 0.01, scale: 'linear',
                 object: this.tempPlanet , property : 'radius',
             },
             {
