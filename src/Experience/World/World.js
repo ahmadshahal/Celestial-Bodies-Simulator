@@ -140,9 +140,8 @@ export default class World {
                     tempPlanet.momentum = newTempPlanetVelocity.multiplyScalar(tempPlanet.mass)
                     planet.momentum = newPlanetVelocity.multiplyScalar(planet.mass)
                     
-                    if(tempPlanet.type === 0 || planet.type === 0){
-                        if(tempPlanet.type === 0)     this.deleteList.push(planet);
-                        if(planet.type === 0)         this.deleteList.push(tempPlanet);
+                    if(tempPlanet.type === 0 && planet.type !== 0){
+                        this.deleteList.push(planet);
                     }
 
                 }
