@@ -115,7 +115,7 @@ class ControlPanel{
             },
             {
                 type: 'range' , label: 'Rotation speed' , folder: 'Add Body',
-                min: 0 , max: 1 , step: 0.001 , scale: 'linear',
+                min: 0.1 , max: 100 , step: 0.1 , scale: 'linear',
                 object: this.tempPlanet , property: 'rotationSpeed'
             },  
             {
