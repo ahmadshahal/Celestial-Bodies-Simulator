@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { guify } from 'guify';
 import Experience from "../Experience";
 import Planet , {earthConstants} from '../World/Planet';
@@ -354,6 +355,21 @@ class ControlPanel{
                 type: 'select' , label: 'controls' , folder: 'Controllers',
                 options: ['Orbit Controls' , 'Fly Controls' ,  'First Person Controls'],
                 onChange: (value) => this.experience.camera.setControls(value)
+            },
+            {
+                type: 'button' , label : 'Back to Center' , folder: 'Controllers',
+                action: () => {
+                    const centerVector = new THREE.Vector3(0 , 0 , 0);
+                    this.experience.camera.instance.position.set(0 , 200 , 200);
+                    this.experience.camera.instance.lookAt(centerVector);
+                    if(this.experience.camera.currentControls === 'First Person Controls'){
+                        this.experience.camera.controls.lookAt(centerVector);
+                    }
+                    else if(this.experience.camera.currentControls === 'Orbit Controls'){
+                        this.experience.camera.controls.target = centerVector;
+                    }
+                    this.experience.informationPanel.hideAll();
+                }
             }
         ]);
     }
@@ -365,7 +381,7 @@ class ControlPanel{
         this.experience.informationPanel.deletePanel(planet);
         planet.mesh.removeFromParent();
         planet.orbit.line.removeFromParent();
-        if(planet.nameMesh != null)
+        if(planet.nameMesh !== undefined && planet.nameMesh !== null) 
             planet.nameMesh.removeFromParent();
         if(planet.type === 0) planet.starLight.removeFromParent();
         if(planet.ring) planet.planetRings.removeFromParent();
