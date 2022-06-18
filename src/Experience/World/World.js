@@ -148,7 +148,7 @@ export default class World {
         planet.speedVector.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
         planet.speedVector.setDirection(planet.getVelocity());
         
-        if(planet.nameMesh !== undefined){
+        if(planet.nameMesh !== undefined  &&  planet.nameMesh  != null){
             planet.nameMesh.position.x = planet.mesh.position.x;
             planet.nameMesh.position.z = planet.mesh.position.z;
             planet.nameMesh.lookAt(this.experience.camera.instance.position);

@@ -58,7 +58,7 @@ export default class Planet {
         if(texture !== null) this.material.map = texture;
         if(texture === null) this.material.color = new THREE.Color(color);
 
-        this.geometry = (type == 3 ? new THREE.DodecahedronBufferGeometry(this.radius) : new THREE.SphereBufferGeometry(this.radius, 32, 32));
+        this.geometry = ((type == 3  ||  type == 4) ? new THREE.DodecahedronBufferGeometry(this.radius) : new THREE.SphereBufferGeometry(this.radius, 32, 32));
 
         this.mesh = new THREE.Mesh(this.geometry , this.material);
 
@@ -89,29 +89,31 @@ export default class Planet {
         }
 
         // add name 
-        const loader = new FontLoader();
-        loader.load(
-            '/fonts/Recursive Monospace Casual_Regular.json',
-            (font) => {
-                this.nameMesh = new THREE.Mesh(
-                    new TextGeometry( this.name , {
-                        font: font, 
-                        size: 4,
-                        height: 0.5,
-                        curveSegments: 12,
-                        bevelEnabled: false,
-                        bevelThickness: 0.1,
-                        bevelSize: 0.1,
-                        bevelSegments: 0.1
-                    }).center(),
-                    new THREE.MeshBasicMaterial({color: '#FFFFFF'}),
-                );
-                this.nameMesh.position.set(x * earthConstants.SCALE , (y * earthConstants.SCALE) + this.radius + 10 , z * earthConstants.SCALE );
-                this.scene.add(this.nameMesh)
-            }
-        );
+        if(type != 4){
+            const loader = new FontLoader();
+            loader.load(
+                '/fonts/Recursive Monospace Casual_Regular.json',
+                (font) => {
+                    this.nameMesh = new THREE.Mesh(
+                        new TextGeometry( this.name , {
+                            font: font, 
+                            size: 4,
+                            height: 0.5,
+                            curveSegments: 12,
+                            bevelEnabled: false,
+                            bevelThickness: 0.1,
+                            bevelSize: 0.1,
+                            bevelSegments: 0.1
+                        }).center(),
+                        new THREE.MeshBasicMaterial({color: '#FFFFFF'}),
+                    );
+                    this.nameMesh.position.set(x * earthConstants.SCALE , (y * earthConstants.SCALE) + this.radius + 10 , z * earthConstants.SCALE );
+                    this.scene.add(this.nameMesh)
+                }
+            );
+        }
         
-        // add momunton vector
+        // add speed vector
         this.speedVector = new THREE.ArrowHelper(this.getVelocity() , this.mesh.position , this.radius + 10 + (this.radius/2)  , '#FF00FF');
         this.speedVector.visible = false;
         this.scene.add(this.speedVector);

@@ -95,7 +95,7 @@ class ControlPanel{
             {
                 type: 'range' , label: 'Mass' , folder: 'Add Body',
                 object: this.tempPlanet , property: 'mass',
-                min: 0.00001 , max: 1e7 , step: 0.00001 , scale: 'linear',
+                min: 0.001 , max: 1e7 , step: 0.00001 , scale: 'linear',
             },
             {
                 type: 'range' , label: 'X velocity' , folder: 'Add Body',
@@ -365,7 +365,8 @@ class ControlPanel{
         this.experience.informationPanel.deletePanel(planet);
         planet.mesh.removeFromParent();
         planet.orbit.line.removeFromParent();
-        planet.nameMesh.removeFromParent();
+        if(planet.nameMesh != null)
+            planet.nameMesh.removeFromParent();
         if(planet.type === 0) planet.starLight.removeFromParent();
         if(planet.ring) planet.planetRings.removeFromParent();
         this.gui.loadedComponents.forEach(e => {
