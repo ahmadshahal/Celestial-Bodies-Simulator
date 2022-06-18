@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import Experience from "../Experience";
 import Planet , {earthConstants} from './Planet.js';
-import Asteroid from './asteroid';
 import textures  from '../Utils/TexturesLoader';
 
 //sun radius = 696340 
@@ -22,8 +21,6 @@ export default class World {
         // Scene Light
         this.sceneLight = new THREE.AmbientLight(0xb9b5ff, 0.12)
 
-        // asteroid
-        // this.asteroid = new Asteroid('ast', 0.5 , 0.5 , 0 , 1 , 1 , 1 , 1 , 1 , null , textures.asteroid , textures.asteroidAlpha , textures.asteroidHight , textures.asteroidNormal , textures.asteroidRoughness);
         
         // sun
         this.sun = new Planet('Sun' , 0 , 0 , 0 , 109 , 333152.42 , 0 , 0 , 0 , 0.01 , '#ff9800' , textures.sun , 0 , false , null);
@@ -39,15 +36,11 @@ export default class World {
         this.neptune = new Planet('Neptune' , 30.18 , 0 , 0 , 3.88 , 17.1 , 0 , 0 , 0.182 , 0.01 , '#b7d0ff' , textures.neptune , 2 , false , null);
         this.pluto = new Planet('Pluto' , 39.48 , 0 , 0 , 0.187 , 0.0022 , 0 , 0 , 0.157 , 0.01 , '#ff9469' , textures.pluto , 1 , false , null);
         
-        // moons
-        this.earthMoon = new Planet('Earth moon' , 1.009 , 0 , 0 , 0.2724 , 0.0123 , 0 , 0 , 0.213 , 0.01 , null , textures.moon , 1 , false , null);
-
         this.planets = [
             this.sun,
             this.mercury,
             this.venus,
             this.earth,
-            // this.earthMoon,
             this.mars,
             this.jupiter,
             this.saturn,
@@ -62,7 +55,6 @@ export default class World {
             this.mercury.mesh,
             this.venus.mesh,
             this.earth.mesh,
-            this.earthMoon.mesh,
             this.mars.mesh,
             this.jupiter.mesh,
             this.saturn.mesh,
@@ -76,7 +68,6 @@ export default class World {
             this.mercury.orbit.line,
             this.venus.orbit.line,
             this.earth.orbit.line,
-            this.earthMoon.orbit.line,
             this.mars.orbit.line,
             this.jupiter.orbit.line,
             this.saturn.orbit.line,
@@ -142,21 +133,6 @@ export default class World {
 
                     tempPlanet.momentum = newTempPlanetVelocity.multiplyScalar(tempPlanet.mass)
                     planet.momentum = newPlanetVelocity.multiplyScalar(planet.mass)
-                    
-                    if(tempPlanet.type === 0 || planet.type === 0){
-                        if(tempPlanet.type === 0) this.experience.controlPanel.deletePlanet(planet);
-                        if(planet.type === 0) this.experience.controlPanel.deletePlanet(tempPlanet);
-                    }
-                    else{
-                        if(planet.type === 2){
-                            this.experience.controlPanel.deletePlanet(planet);
-                            
-                        }
-                        if(tempPlanet.type === 2){
-                            this.experience.controlPanel.deletePlanet(tempPlanet);
-                            
-                        }
-                    }
                 }
             }
         })
