@@ -13,6 +13,7 @@ export const earthConstants = {
     radiusScale : 1 / (6378*2),
     earthRadius : 6378 * (1 / (6378*2)), // radiusScale
     earthVelocity : -1 * 29.8 * 1000,
+    earthRotationScale : 1/10
 }
 
 export default class Planet {
@@ -26,6 +27,7 @@ export default class Planet {
         this.mass = mass * earthConstants.earthMass; 
         this.momentum = new THREE.Vector3(xV * this.mass, yV * this.mass, zV * this.mass * earthConstants.earthVelocity);
         this.rotationalSpeed = rotationalSpeed
+        this.rotationalSpeedScaled = (1/rotationalSpeed) * earthConstants.earthRotationScale
         this.orbit = new PathPoint(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
         this.ring = ring;
         this.type = type;
@@ -124,8 +126,8 @@ export default class Planet {
     }
 
     rotate(){
-        this.mesh.rotation.y += (this.rotationalSpeed * (earthConstants.TIME_STEP / 3600)) ;
-        if(this.ring) this.planetRings.rotation.z+= 0.001;
+        this.mesh.rotation.y += (this.rotationalSpeedScaled * (earthConstants.TIME_STEP / 3600)) ;
+        if(this.ring) this.planetRings.rotation.z+= 0.002;
     }
 
     gravitationalForce(planet) {
