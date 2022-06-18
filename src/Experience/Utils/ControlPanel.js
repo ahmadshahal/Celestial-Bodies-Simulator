@@ -161,9 +161,11 @@ class ControlPanel{
                     if(f === false){
                         setTimeout(() => {
                             newPlanet.nameMesh.removeFromParent();
+                            newPlanet.speedVector.removeFromParent();
+                            newPlanet.forceVector.removeFromParent();
                             if(newPlanet.type === 0) newPlanet.starLight.removeFromParent();
                             if(newPlanet.ring) newPlanet.planetRings.removeFromParent();
-                        } , 500);
+                        } , 1000);
                         return;
                     }
                     planets.push(newPlanet);
@@ -196,8 +198,12 @@ class ControlPanel{
                 object: planet.orbit.line , property: 'visible',
             },
             {
-                type: 'checkbox' , label: 'speed Vector' , folder: planet.name,
-                object: planet.speedVector , property: 'visible',
+                type: 'checkbox' , label: 'Speed & Gravitational Force' , folder: planet.name,
+                initial: false,
+                onChange: (value) => {
+                    planet.speedVector.visible = value;
+                    planet.forceVector.visible = value;
+                }
             },
             {
                 type: 'color' , label: 'Color' , folder: planet.name,
@@ -252,6 +258,7 @@ class ControlPanel{
     editConstants(){
         const G = earthConstants.G;
         const AU = earthConstants.AU;
+        const COR = earthConstants.COR;
         const SCALE = earthConstants.SCALE;
         const radiusScale = earthConstants.radiusScale;
         const TIME_STEP = earthConstants.TIME_STEP;
@@ -269,6 +276,11 @@ class ControlPanel{
                 type: 'range' , label: 'AU' , folder: 'Constants',
                 min: 0 , max: AU * 10 , step: 1000 , scale: 'linear',
                 object: earthConstants , property: 'AU',
+            },
+            {
+                type: 'range' , label : 'COR' , folder: 'Constants',
+                min: 0 , max: 1 , step: 0.0001 , scale: 'linear',
+                object: earthConstants , property: 'COR',
             },
             {
                 type: 'range' , label: 'Scale' , folder: 'Constants',
@@ -305,6 +317,7 @@ class ControlPanel{
                 action: () => {
                     earthConstants.G = G;
                     earthConstants.AU = AU;
+                    earthConstants.COR = COR;
                     earthConstants.SCALE = SCALE;
                     earthConstants.TIME_STEP = TIME_STEP;
                     earthConstants.earthMass = earthMass;
@@ -381,6 +394,8 @@ class ControlPanel{
         this.experience.informationPanel.deletePanel(planet);
         planet.mesh.removeFromParent();
         planet.orbit.line.removeFromParent();
+        planet.speedVector.removeFromParent();
+        planet.forceVector.removeFromParent();
         if(planet.nameMesh !== undefined && planet.nameMesh !== null) 
             planet.nameMesh.removeFromParent();
         if(planet.type === 0) planet.starLight.removeFromParent();

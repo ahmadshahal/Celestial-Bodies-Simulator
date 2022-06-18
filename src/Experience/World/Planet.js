@@ -7,6 +7,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 export const earthConstants = {
     G : 6.67428e-11,
     AU : 149.6e6 * 1000,
+    COR: 1,
     SCALE : 200 / (149.6e6 * 1000), // AU value    // change from 10 to 200;    
     TIME_STEP : 60 * 60, /// change from 24 * 60 * 60 to 2000 
     earthMass : 5.97 * 10 ** 24,
@@ -117,6 +118,11 @@ export default class Planet {
         this.speedVector = new THREE.ArrowHelper(this.getVelocity() , this.mesh.position , this.radius + 10 + (this.radius/2)  , '#FF00FF');
         this.speedVector.visible = false;
         this.scene.add(this.speedVector);
+
+        // add gravitational Force vector
+        this.forceVector = new THREE.ArrowHelper(new THREE.Vector3(0 , 0 , 0) , this.mesh.position , this.radius + 10 + (this.radius/2) , '#FF0000');
+        this.forceVector.visible = false;
+        this.scene.add(this.forceVector);
 
         this.mesh.position.x = this.position.x * earthConstants.SCALE
         this.mesh.position.y = this.position.y * earthConstants.SCALE

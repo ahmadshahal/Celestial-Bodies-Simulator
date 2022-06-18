@@ -105,10 +105,10 @@ export default class World {
             }
         })
         planet.momentum = planet.momentum.clone().add(force.multiplyScalar(earthConstants.TIME_STEP));
+        planet.forceVector.setDirection(force);
     }
 
     collisionUpdate(planet) {
-        const COR = 1
         this.planets.forEach((tempPlanet) => {
             if (planet != tempPlanet) {
                 if (planet.areCollided(tempPlanet)) {
@@ -126,8 +126,8 @@ export default class World {
                     const planetVN = un.clone().dot(planet.getVelocity().clone())
                     const planetVT = ut.clone().dot(planet.getVelocity().clone())
 
-                    const newTempPlanetVN = (tempPlanetVN * tempPlanet.mass + planetVN * planet.mass + planet.mass * (planetVN - tempPlanetVN) * COR) / (planet.mass + tempPlanet.mass)
-                    const newPlanetVN = (planetVN * planet.mass + tempPlanetVN * tempPlanet.mass + tempPlanet.mass * (tempPlanetVN - planetVN) * COR) / (planet.mass + tempPlanet.mass)
+                    const newTempPlanetVN = (tempPlanetVN * tempPlanet.mass + planetVN * planet.mass + planet.mass * (planetVN - tempPlanetVN) * earthConstants.COR) / (planet.mass + tempPlanet.mass)
+                    const newPlanetVN = (planetVN * planet.mass + tempPlanetVN * tempPlanet.mass + tempPlanet.mass * (tempPlanetVN - planetVN) * earthConstants.COR) / (planet.mass + tempPlanet.mass)
 
                     const finalTempPlanetVN = un.clone().multiplyScalar(newTempPlanetVN)
                     const finalTempPlanetVT = ut.clone().multiplyScalar(tempPlanetVT)
@@ -158,7 +158,7 @@ export default class World {
 
         planet.speedVector.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
         planet.speedVector.setDirection(planet.getVelocity());
-        
+        planet.forceVector.position.set(planet.mesh.position.x , planet.mesh.position.y , planet.mesh.position.z);
 
         if(planet.nameMesh !== undefined  &&  planet.nameMesh  != null){
             planet.nameMesh.position.x = planet.mesh.position.x;
