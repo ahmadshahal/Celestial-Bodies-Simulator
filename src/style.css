@@ -267,7 +267,7 @@ body{
     color: #2196f3;
 }
 .information-panel .content .rotationalSpeed::after{
-    content: 'Day per rotation';
+    content: 'rotation per Day';
     position: absolute;
     right: 0;
     top: 50%;

@@ -29,7 +29,7 @@ export default class Planet {
         this.mass = mass * earthConstants.earthMass; 
         this.momentum = new THREE.Vector3(xV * this.mass, yV * this.mass, zV * this.mass * earthConstants.earthVelocity);
         this.rotationalSpeed = rotationalSpeed
-        this.rotationalSpeedScaled = (1/rotationalSpeed) * earthConstants.earthRotationScale
+        this.rotationalSpeedScaled = this.rotationalSpeed * earthConstants.earthRotationScale;
         this.orbit = new PathPoint(x * earthConstants.SCALE, y * earthConstants.SCALE, z * earthConstants.SCALE);
         this.ring = ring;
         this.type = type;

@@ -16,7 +16,7 @@ class ControlPanel{
             color: '#FFFFFF',
             mass: 1, 
             xV: 0, yV: 0, zV: 1,
-            rotationSpeed : 0.1,
+            rotationSpeed : 0.01,
             type: 1,
         };
 
@@ -115,7 +115,7 @@ class ControlPanel{
             },
             {
                 type: 'range' , label: 'Rotation speed' , folder: 'Add Body',
-                min: 0.1 , max: 100 , step: 0.1 , scale: 'linear',
+                min: 0 , max: 100 , step: 0.001 , scale: 'linear', precision: 10,
                 object: this.tempPlanet , property: 'rotationSpeed'
             },  
             {

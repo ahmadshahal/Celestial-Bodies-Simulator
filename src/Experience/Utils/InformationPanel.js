@@ -64,7 +64,7 @@ class InformationPanel{
         
         const rotationalSpeed = document.createElement("div");
         rotationalSpeed.className = "rotationalSpeed";
-        rotationalSpeed.appendChild(document.createTextNode(`${planet.rotationalSpeed}`));
+        rotationalSpeed.appendChild(document.createTextNode(`${Math.abs(planet.rotationalSpeed.toFixed(4))}`));
         if(planet.color != null)    rotationalSpeed.style.color = `${planet.color}`
         content.appendChild(rotationalSpeed);
 

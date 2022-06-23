@@ -23,18 +23,18 @@ export default class World {
 
         
         // sun
-        this.sun = new Planet('Sun' , 0 , 0 , 0 , 109 , 333152.42 , 0 , 0 , 0 , 27 , '#ff9800' , textures.sun , 0 , false , null);
+        this.sun = new Planet('Sun' , 0 , 0 , 0 , 109 , 333152.42 , 0 , 0 , 0 , 1/27 , '#ff9800' , textures.sun , 0 , false , null);
 
         // planet
-        this.mercury = new Planet('Mercury' , 0.387 , 0 , 0 , 0.383 , 0.0553 , 0 , 0 , 1.59 , 58.8 , '#7973dc' , textures.mercury , 1 , false , null);
-        this.venus = new Planet('Venus' , 0.723 , 0 , 0 , 0.949 , 0.815 , 0 , 0 , 1.18 , -244 , '#d67a19' , textures.venus , 1 , false , null);
+        this.mercury = new Planet('Mercury' , 0.387 , 0 , 0 , 0.383 , 0.0553 , 0 , 0 , 1.59 , 1/58.8 , '#7973dc' , textures.mercury , 1 , false , null);
+        this.venus = new Planet('Venus' , 0.723 , 0 , 0 , 0.949 , 0.815 , 0 , 0 , 1.18 , 1/-244 , '#d67a19' , textures.venus , 1 , false , null);
         this.earth = new Planet('Earth' , 1 , 0 , 0 , 1 , 1 , 0 , 0 , 1 , 1 , '#5592c6' , textures.earth , 1 , false , null);
-        this.mars = new Planet('Mars' , 1.52 , 0 , 0 , 0.532  , 0.107 , 0 , 0 , 0.808 , 1.03 , '#3adede' , textures.mars , 1 , false , null);
-        this.jupiter = new Planet('Jupiter' , 5.20 , 0 , 0 , 11.21 , 317.8 , 0 , 0 , 0.439 , 0.415 , '#e96a76' , textures.jupiter , 2 , false , null);
-        this.saturn = new Planet('Saturn' , 9.57 , 0 , 0 , 9.45 , 95.2 , 0 , 0 , 0.325 , 0.445 , '#eba357' , textures.saturn , 2 , true , textures.saturnRing);
-        this.uranus = new Planet('Uranus' , 19.17 , 0 , 0 , 4.01 , 14.5 , 0 , 0 , 0.228 , -0.720 , '#89ebff' , textures.uranus , 2 , false , null);
-        this.neptune = new Planet('Neptune' , 30.18 , 0 , 0 , 3.88 , 17.1 , 0 , 0 , 0.182 , 0.673 , '#b7d0ff' , textures.neptune , 2 , false , null);
-        this.pluto = new Planet('Pluto' , 39.48 , 0 , 0 , 0.187 , 0.0022 , 0 , 0 , 0.157 , 6.41 , '#ff9469' , textures.pluto , 1 , false , null);
+        this.mars = new Planet('Mars' , 1.52 , 0 , 0 , 0.532  , 0.107 , 0 , 0 , 0.808 , 1/1.03 , '#3adede' , textures.mars , 1 , false , null);
+        this.jupiter = new Planet('Jupiter' , 5.20 , 0 , 0 , 11.21 , 317.8 , 0 , 0 , 0.439 , 1/0.415 , '#e96a76' , textures.jupiter , 2 , false , null);
+        this.saturn = new Planet('Saturn' , 9.57 , 0 , 0 , 9.45 , 95.2 , 0 , 0 , 0.325 , 1/0.445 , '#eba357' , textures.saturn , 2 , true , textures.saturnRing);
+        this.uranus = new Planet('Uranus' , 19.17 , 0 , 0 , 4.01 , 14.5 , 0 , 0 , 0.228 , 1/-0.720 , '#89ebff' , textures.uranus , 2 , false , null);
+        this.neptune = new Planet('Neptune' , 30.18 , 0 , 0 , 3.88 , 17.1 , 0 , 0 , 0.182 , 1/0.673 , '#b7d0ff' , textures.neptune , 2 , false , null);
+        this.pluto = new Planet('Pluto' , 39.48 , 0 , 0 , 0.187 , 0.0022 , 0 , 0 , 0.157 , 1/6.41 , '#ff9469' , textures.pluto , 1 , false , null);
         
         this.planets = [
             this.sun,
