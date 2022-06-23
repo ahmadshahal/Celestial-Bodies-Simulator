@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import PathPoint from './PathPoint'
 import Experience from "../Experience";
+import fontf from '../../../static/fonts/Recursive Monospace Casual_Regular.json';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 
@@ -33,6 +34,7 @@ export default class Planet {
         this.ring = ring;
         this.type = type;
         this.color = color;
+        this.velocityLength = this.getVelocity().length();
 
         if(type === 0) {
             this.material = new THREE.MeshBasicMaterial();
@@ -92,26 +94,22 @@ export default class Planet {
         // add name 
         if(type != 4){
             const loader = new FontLoader();
-            loader.load(
-                '/fonts/Recursive Monospace Casual_Regular.json',
-                (font) => {
-                    this.nameMesh = new THREE.Mesh(
-                        new TextGeometry( this.name , {
-                            font: font, 
-                            size: 4,
-                            height: 0.5,
-                            curveSegments: 12,
-                            bevelEnabled: false,
-                            bevelThickness: 0.1,
-                            bevelSize: 0.1,
-                            bevelSegments: 0.1
-                        }).center(),
-                        new THREE.MeshBasicMaterial({color: '#FFFFFF'}),
-                    );
-                    this.nameMesh.position.set(x * earthConstants.SCALE , (y * earthConstants.SCALE) + this.radius + 10 , z * earthConstants.SCALE );
-                    this.scene.add(this.nameMesh)
-                }
+            const tempfff =  loader.parse(fontf);
+            this.nameMesh = new THREE.Mesh(
+                new TextGeometry( this.name , {
+                    font: tempfff, 
+                    size: 4,
+                    height: 0.5,
+                    curveSegments: 12,
+                    bevelEnabled: false,
+                    bevelThickness: 0.1,
+                    bevelSize: 0.1,
+                    bevelSegments: 0.1
+                }).center(),
+                new THREE.MeshBasicMaterial({color: '#FFFFFF'}),
             );
+            this.nameMesh.position.set(x * earthConstants.SCALE , (y * earthConstants.SCALE) + this.radius + 10 , z * earthConstants.SCALE );
+            this.scene.add(this.nameMesh)
         }
         
         // add speed vector

@@ -211,7 +211,16 @@ class ControlPanel{
                 onChange: (value) => { planet.mesh.material.color.set(value)}
             },
             {
-                type: 'range' , label: 'Mass(kg)' , folder: planet.name,
+                type: 'range' , label: 'speed (km/s)' , folder: planet.name,
+                min: 0 , max: 1e5 , step: 0.001 , scale: 'linear', precision: 5,
+                object: planet , property: 'velocityLength',
+                onChange: (value) => {
+                    const temp = value * planet.mass;
+                    planet.momentum.setLength(temp);
+                }
+            },
+            {
+                type: 'range' , label: 'Mass (kg)' , folder: planet.name,
                 min: 1e15, max: 4e30, step: 1000 , scale: 'linear',    
                 object: planet , property: 'mass'
             },
@@ -270,7 +279,6 @@ class ControlPanel{
                 type: 'range' , label: 'G' , folder: 'Constants',
                 min : 0 , max : 1 , setp: 0.0001 , scale: 'linear',
                 object: earthConstants , property: 'G',
-                onChange: () => console.log(earthConstants.G),
             },
             {
                 type: 'range' , label: 'AU' , folder: 'Constants',
