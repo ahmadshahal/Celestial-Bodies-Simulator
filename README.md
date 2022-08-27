@@ -6,7 +6,7 @@ Celestial Bodies Simulator is a University Project created by a group of student
 * All Physics and Mathematics used were implemented and tested by us.
 
 ## Features
-* Realtime planets creation, edit and deletion.
+* Realtime planets creation, edit, and deletion.
 * Realtime values viewer.
 * Real distance, time and mass scale.
 * 3D Collisions.
