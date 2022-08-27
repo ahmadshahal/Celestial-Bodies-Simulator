@@ -1,18 +1,18 @@
 ## Intro
 Celestial Bodies Simulator is a University Project created by a group of students in their 3rd year at Damascus University.
 
-## Technologies:
+## Technologies
 * The simulator is built using Three JS graphics library which uses WebGL.
 * All Physics and Mathematics used were implemented and tested by us.
 
-## Features:
+## Features
 * Realtime planets creation, edit and deletion.
 * Realtime values viewer.
 * Real distance, time and mass scale.
 * 3D Collisions.
 * Multiple camera options.
 
-## Release:
+## Release
 Feel free to try it from [Here](https://twfek-ajeneh.github.io/Solar-System-Simulation/).
 
 ## Setup
