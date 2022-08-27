@@ -12,6 +12,9 @@ Celestial Bodies Simulator is a University Project created by a group of student
 * 3D Collisions.
 * Multiple camera options.
 
+## Release:
+Feel free to try it from [Here](https://twfek-ajeneh.github.io/Solar-System-Simulation/).
+
 ## Setup
 To run the project on a **Local Host** download [Three.js](https://threejs.org/docs/#manual/en/introduction/Installation/) and [Node.js](https://nodejs.org/en/download/) then run the following commands:
 
